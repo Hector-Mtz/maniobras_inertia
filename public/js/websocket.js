@@ -1,3 +1,7 @@
+(function() {
+    easyTabs();
+  })();
+
   var pusher = new Pusher('2c88f38b3dec05291a65', {
       cluster: 'us2'
   });

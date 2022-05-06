@@ -195,12 +195,85 @@ const enviarIdCedisManiobra = (idC, idM) => {
                                </tr>
                              </td>
                              <td class="p-3">
-                             <!--SE DESPLIAGAN LAS TURNOS -->
+                             <!--SE DESPLIAGAN LAS TURNOS-->
+                               <div class="t-container">
+                                 <ul class="t-tabs">
+                                   <li class="t-tab">+</li>
+                                   <li class="t-tab" v-for="turno in turnos" :value="turno.id" :key="turno.id">{{turno.NombreTurno}}</li>
+                                 </ul>
+                                 <ul class="t-contents">
+                                   <!--FORMULARIO DE INSERCION-->
+                                   <li class="t-content">
+                                      <form  style="margin-top:5%;" @submit.prevent="agregarTurno" >
+                                        <input type="text"  id="maniobras_id"  v-model="turno.maniobras_id" >
+                                         <label for="NombreTurno">Turno:</label>
+                                         <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
+                                         <label for="FechaInicio">Fecha de inicio</label>
+                                         <input type="date" name="FechaInicio" id="FechaInicio" v-model="turno.FechaInicio" required>
+                                         <label for="FechaFinal">Fecha de final</label>
+                                         <input type="date" name="FechaFinal" id="FechaFinal" v-model="turno.FechaFinal"  required><br><br>
+                                         <label for="HoraInicio">Hora de inicio</label>
+                                         <input type="time" id="appt" name="HoraInicio" v-model="turno.HoraInicio" required>
+                                         <label for="HoraFinal">Hora de final</label>
+                                         <input type="time" id="appt" name="HoraFinal" required v-model="turno.HoraFinal"  ><br><br>
+                                         <label for="NumeroManiobristas">Numero de maniobristas</label>
+                                         <input type="number" placeholder="0/20" name="NumeroManiobristas" v-model="turno.NumeroManiobristas" required>
 
+                                         <!--Datos para tabla tabla de MONTOS-->
+                                         <label for="cantidad">Monto $:</label>
+                                         <input type="number" name="cantidad" v-model="turno.cantidad"  required>
+                                         <br><br>
+                                         <!--Fin Datos para tabla tabla de MONTOS-->
+
+                                         <label for="rango">Radio</label>
+                                         <div class="spinner-grow spinner-grow-sm" role="status">
+                                           <span class="visually-hidden">Loading...</span>
+                                         </div>
+                                         <input type="number" name="rango" placeholder="0 KM" v-model="turno.rango" required><br><br>
+                                         <label for="nota">Notas</label><br>
+                                         <textarea name="nota" id="nota" cols="100" rows="5" v-model="turno.nota"></textarea>
+                                         <button style="float:right;" class="btn btn-primary mb-3" type="submit">Enviar</button>
+                                      </form>
+                                   </li>
+                                    <!--FORMULARIO DE Edicion-->
+                                   <li class="t-content" v-for="turno in turnos" :value="turno.id" :key="turno.id">
+                                      <form  style="margin-top:5%;" @submit.prevent="actualizarTurno" >
+                                        <input type="text"  id="maniobras_id"  v-model="turno.maniobras_id" >
+                                         <label for="NombreTurno">Turno:</label>
+                                         <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
+                                         <label for="FechaInicio">Fecha de inicio</label>
+                                         <input type="date" name="FechaInicio" id="FechaInicio" v-model="turno.FechaInicio" required>
+                                         <label for="FechaFinal">Fecha de final</label>
+                                         <input type="date" name="FechaFinal" id="FechaFinal" v-model="turno.FechaFinal"  required><br><br>
+                                         <label for="HoraInicio">Hora de inicio</label>
+                                         <input type="time" id="appt" name="HoraInicio" v-model="turno.HoraInicio" required>
+                                         <label for="HoraFinal">Hora de final</label>
+                                         <input type="time" id="appt" name="HoraFinal" required v-model="turno.HoraFinal"  ><br><br>
+                                         <label for="NumeroManiobristas">Numero de maniobristas</label>
+                                         <input type="number" placeholder="0/20" name="NumeroManiobristas" v-model="turno.NumeroManiobristas" required>
+
+                                         <!--Datos para tabla tabla de MONTOS-->
+                                         <label for="cantidad">Monto $:</label>
+                                         <input type="number" name="cantidad" v-model="turno.cantidad"  required>
+                                         <br><br>
+                                         <!--Fin Datos para tabla tabla de MONTOS-->
+
+                                         <label for="rango">Radio</label>
+                                         <div class="spinner-grow spinner-grow-sm" role="status">
+                                           <span class="visually-hidden">Loading...</span>
+                                         </div>
+                                         <input type="number" name="rango" placeholder="0 KM" v-model="turno.rango" required><br><br>
+                                         <label for="nota">Notas</label><br>
+                                         <textarea name="nota" id="nota" cols="100" rows="5" v-model="turno.nota"></textarea>
+                                         <button style="float:right;" class="btn btn-primary mb-3" type="submit">Enviar</button>
+                                      </form>
+                                   </li>
+                                 </ul>
+                               </div>
                              </td>
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
-
+                                 <div class="content"></div>
                              </td>
                            </tr>
                          </tbody>

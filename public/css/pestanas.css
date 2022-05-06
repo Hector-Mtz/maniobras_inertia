@@ -30,7 +30,7 @@
   .t-tabs li.selected {
     color: #050607;
     cursor: default;
-    background: rgb(133, 130, 130);
+    background: rgb(79 193 93)
   }
   .t-contents {
     padding: 0 !important
