@@ -27899,7 +27899,10 @@ var _hoisted_50 = ["value"];
 var _hoisted_51 = ["onUpdate:modelValue"];
 
 var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "NombreTurno"
+  "for": "NombreTurno",
+  style: {
+    "margin": "1%"
+  }
 }, "Turno:", -1
 /* HOISTED */
 );
@@ -27908,7 +27911,7 @@ var _hoisted_53 = ["onUpdate:modelValue"];
 
 var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "FechaInicio"
-}, "Fecha de inicio", -1
+}, "Fecha de inicio:", -1
 /* HOISTED */
 );
 
@@ -27916,7 +27919,7 @@ var _hoisted_55 = ["onUpdate:modelValue"];
 
 var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "FechaFinal"
-}, "Fecha de final", -1
+}, "Fecha de final:", -1
 /* HOISTED */
 );
 
@@ -27931,16 +27934,22 @@ var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "HoraInicio"
-}, "Hora de inicio", -1
+  "for": "HoraInicio",
+  style: {
+    "margin": "1%"
+  }
+}, "Hora de inicio:", -1
 /* HOISTED */
 );
 
 var _hoisted_61 = ["onUpdate:modelValue"];
 
 var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "HoraFinal"
-}, "Hora de final", -1
+  "for": "HoraFinal",
+  style: {
+    "margin": "1%"
+  }
+}, "Hora de final:", -1
 /* HOISTED */
 );
 
@@ -27955,15 +27964,21 @@ var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_66 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "NumeroManiobristas"
-}, "Numero de maniobristas", -1
+  "for": "NumeroManiobristas",
+  style: {
+    "margin": "1%"
+  }
+}, "Numero de maniobristas:", -1
 /* HOISTED */
 );
 
 var _hoisted_67 = ["onUpdate:modelValue"];
 
 var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "cantidad"
+  "for": "cantidad",
+  style: {
+    "margin": "1%"
+  }
 }, "Monto $:", -1
 /* HOISTED */
 );
@@ -27979,7 +27994,10 @@ var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "rango"
+  "for": "rango",
+  style: {
+    "margin": "1%"
+  }
 }, "Radio", -1
 /* HOISTED */
 );
@@ -28522,13 +28540,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           id: "maniobras_id",
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.maniobras_id = $event;
-          }
+          },
+          hidden: ""
         }, null, 8
         /* PROPS */
         , _hoisted_51), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, turno.maniobras_id]]), _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           type: "text",
           name: "NombreTurno",
           id: "NombreTurno",
+          style: {
+            "margin": "1%"
+          },
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.NombreTurno = $event;
           },
@@ -28539,6 +28561,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           type: "date",
           name: "FechaInicio",
           id: "FechaInicio",
+          style: {
+            "margin": "1%"
+          },
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.FechaInicio = $event;
           },
@@ -28549,6 +28574,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           type: "date",
           name: "FechaFinal",
           id: "FechaFinal",
+          style: {
+            "margin": "1%"
+          },
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.FechaFinal = $event;
           },
@@ -28562,7 +28590,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.HoraInicio = $event;
           },
-          required: ""
+          required: "",
+          style: {
+            "margin": "1%"
+          }
         }, null, 8
         /* PROPS */
         , _hoisted_61), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, turno.HoraInicio]]), _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -28572,6 +28603,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           required: "",
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return turno.HoraFinal = $event;
+          },
+          style: {
+            "margin": "1%"
           }
         }, null, 8
         /* PROPS */

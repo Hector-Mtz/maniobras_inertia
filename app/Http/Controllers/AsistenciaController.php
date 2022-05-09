@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\asistencia;
 use Illuminate\Http\Request;
+use App\Events\turnosactivos;
 
 class AsistenciaController extends Controller
 {
@@ -35,7 +36,30 @@ class AsistenciaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $user = Auth::user();
+        // broadcast(new turnosactivos($user));
+        $asistencia = new asistencia(); //Necesitamso guardar el registro que se emitira en una variable
+
+        $asistencia->user_id = $request->user_id; //manda a llamar todos los elementos insetados en la BD
+
+        $asistencia->turno_id = $request->turno_id;
+
+        $asistencia->monto_id = $request->monto_id;
+
+        $asistencia->documento_id = $request->documento_id  ;
+
+        $asistencia->asistencia = $request->asistencia;
+
+        $asistencia->save(); //guarda todos los datos y los envia
+
+        broadcast(new turnosactivos(
+        $asistencia->turno_id,
+        $asistencia->user->name,
+        $asistencia->monto->cantidad )); //transmision de evento
+
+        //$datosAsistencia = request()->except('_token'); //insercion de datos
+        //Asistencias::insert($datosAsistencia);
+        return redirect('maniobras') -> with('mensaje','asistencia agregada');
     }
 
     /**

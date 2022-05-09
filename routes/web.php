@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CediController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ManiobraController;
@@ -48,6 +49,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',
     Route::apiResource('/clientes', ClienteController::class);
     Route::apiResource('/turnos', TurnoController::class);
     Route::apiResource('/montos', MontoController::class);
+    Route::apiResource('/asistencia', AsistenciaController::class);
 
 
 

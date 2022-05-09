@@ -13,4 +13,10 @@ class maniobra extends Model
      'cedis_id',
      'activo'
     ];
+
+    public function scopeCedis($query, $idCedis) {
+    	if ($idCedis) {
+    		return $query->where('idCEDISFk','like',"%$idCedis%");
+    	}
+    }
 }

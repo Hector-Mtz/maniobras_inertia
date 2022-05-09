@@ -12,4 +12,9 @@ class monto extends Model
     ['cantidad',
      'turno_id'
     ];
+
+
+    public function turno(){
+        return $this->belongsTo(turno::class,'turno_id', 'id');
+    }
 }

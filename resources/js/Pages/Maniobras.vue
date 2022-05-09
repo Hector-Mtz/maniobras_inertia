@@ -238,27 +238,27 @@ const enviarIdCedisManiobra = (idC, idM) => {
                                     <!--FORMULARIO DE Edicion-->
                                    <li class="t-content" v-for="turno in turnos" :value="turno.id" :key="turno.id">
                                       <form  style="margin-top:5%;" @submit.prevent="actualizarTurno" >
-                                        <input type="text"  id="maniobras_id"  v-model="turno.maniobras_id" >
-                                         <label for="NombreTurno">Turno:</label>
-                                         <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
-                                         <label for="FechaInicio">Fecha de inicio</label>
-                                         <input type="date" name="FechaInicio" id="FechaInicio" v-model="turno.FechaInicio" required>
-                                         <label for="FechaFinal">Fecha de final</label>
-                                         <input type="date" name="FechaFinal" id="FechaFinal" v-model="turno.FechaFinal"  required><br><br>
-                                         <label for="HoraInicio">Hora de inicio</label>
-                                         <input type="time" id="appt" name="HoraInicio" v-model="turno.HoraInicio" required>
-                                         <label for="HoraFinal">Hora de final</label>
-                                         <input type="time" id="appt" name="HoraFinal" required v-model="turno.HoraFinal"  ><br><br>
-                                         <label for="NumeroManiobristas">Numero de maniobristas</label>
-                                         <input type="number" placeholder="0/20" name="NumeroManiobristas" v-model="turno.NumeroManiobristas" required>
+                                        <input type="text"  id="maniobras_id"  v-model="turno.maniobras_id" hidden  >
+                                         <label for="NombreTurno" style="margin:1%;">Turno:</label>
+                                         <input type="text" name="NombreTurno" id="NombreTurno" style="margin:1%;" v-model="turno.NombreTurno" placeholder="Nombre del turno">
+                                         <label for="FechaInicio" >Fecha de inicio:</label>
+                                         <input type="date" name="FechaInicio" id="FechaInicio" style="margin:1%;" v-model="turno.FechaInicio" required>
+                                         <label for="FechaFinal" >Fecha de final:</label>
+                                         <input type="date" name="FechaFinal" id="FechaFinal" style="margin:1%;" v-model="turno.FechaFinal"  required><br><br>
+                                         <label for="HoraInicio" style="margin:1%;">Hora de inicio:</label>
+                                         <input type="time" id="appt" name="HoraInicio" v-model="turno.HoraInicio" required style="margin:1%;">
+                                         <label for="HoraFinal" style="margin:1%;">Hora de final:</label>
+                                         <input type="time" id="appt" name="HoraFinal" required v-model="turno.HoraFinal" style="margin:1%;"  ><br><br>
+                                         <label for="NumeroManiobristas" style="margin:1%;">Numero de maniobristas:</label>
+                                         <input type="number" placeholder="0/20" name="NumeroManiobristas" v-model="turno.NumeroManiobristas" required >
 
                                          <!--Datos para tabla tabla de MONTOS-->
-                                         <label for="cantidad">Monto $:</label>
+                                         <label for="cantidad" style="margin:1%;">Monto $:</label>
                                          <input type="number" name="cantidad" v-model="turno.cantidad"  required>
                                          <br><br>
                                          <!--Fin Datos para tabla tabla de MONTOS-->
 
-                                         <label for="rango">Radio</label>
+                                         <label for="rango" style="margin:1%;">Radio</label>
                                          <div class="spinner-grow spinner-grow-sm" role="status">
                                            <span class="visually-hidden">Loading...</span>
                                          </div>
