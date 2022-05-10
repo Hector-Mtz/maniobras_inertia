@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\cedi;
 use App\Models\maniobra;
-use App\Models\cedis;
 use App\Models\cliente;
+use App\Models\documento;
 use App\Models\monto;
 use App\Models\turno;
 use App\Models\User;
@@ -30,7 +30,7 @@ class ManiobraController extends Controller
         $maniobras = [];
         $users = User::all();
         $montos = monto::all();
-
+        $documentos = documento::all();
 
         //Funciones para ocultar elementos HTML
         $load_data_maniobras = 'false'; //no debe mostrarse si es true
@@ -61,8 +61,6 @@ class ManiobraController extends Controller
         }
 
 
-
-
         return Inertia::render('Maniobras',[
             'cedis'=> $cedis,
             'clientes' =>$clientes,
@@ -70,6 +68,7 @@ class ManiobraController extends Controller
             'turnos'=> $turnos,
             'users' => $users,
             'montos' => $montos,
+            'documentos' => $documentos,
             'load_data_maniobras' => $load_data_maniobras,
             'load_data_turnos' => $load_data_turnos
         ]);

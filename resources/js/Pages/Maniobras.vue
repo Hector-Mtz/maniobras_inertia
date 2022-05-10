@@ -22,7 +22,8 @@ defineProps({
     maniobras:Object,
     turnos:Object,
     users:Object,
-    montos:Object
+    montos:Object,
+    documentos:Object
 });
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM de CEDIS
@@ -94,13 +95,17 @@ const agregarTurno =   () => {
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE trabajadores
 const trabajador = useForm({
     asistencia: '',
-    turno: ''
+    turno_id: '',
+    user_id:'',
+    documento_id:'',
+    monto_id:''
 });
 
 //FUNCION PARA AGREGAR TRABAJADORES
 const  agregarTrabajador = () => {
     trabajador.post(route('asistencia.store'), {
         onFinish: () => trabajador.reset(),
+         onSuccess: () => closeModal(),
     });
 };
 //FUNCION PARA MODALES
@@ -141,8 +146,8 @@ const enviarIdCedisManiobra = (idC, idM) => {
   Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM}, { preserveState: true })
 }
 
-
 </script>
+
 
 <template>
     <!--HEADER-->
@@ -273,7 +278,10 @@ const enviarIdCedisManiobra = (idC, idM) => {
                              </td>
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
-                                 <div class="content"></div>
+                                <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.id" :key="turno.id" class="t-tab">
+                                   <div class="header">{{turno.NombreTurno}}</div>
+                                   <div class="content"></div> <!-- Aqui emite los datos de webSocket -->
+                                </div>
                              </td>
                            </tr>
                          </tbody>
@@ -388,6 +396,11 @@ const enviarIdCedisManiobra = (idC, idM) => {
                          <select id="monto_id" v-model="trabajador.monto_id">
                            <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
                          </select>
+                         <br><br>
+                           <label for="documento_id">Documento del trabajador:</label><br>
+                           <select id="documento_id" v-model="trabajador.documento_id">
+                             <option  v-for="documento in documentos" :value="documento.id" :key="documento.id">{{documento.documento}}</option>
+                           </select>
                          <br><br>
                          <label for="asistencia">Asistencia</label>
                          <div class="form-check">

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class turnosactivos
+class turnosactivos implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -40,5 +40,11 @@ class turnosactivos
     {
          return new Channel('turnos');
         //return new PrivateChannel('channel-name');
+    }
+
+    public function broadcastAs()
+    {
+        //return new PrivateChannel('channel-name');
+        return "turnosactivos";
     }
 }

@@ -59,7 +59,7 @@ class AsistenciaController extends Controller
 
         //$datosAsistencia = request()->except('_token'); //insercion de datos
         //Asistencias::insert($datosAsistencia);
-        return redirect('maniobras') -> with('mensaje','asistencia agregada');
+        return  redirect()->back();
     }
 
     /**

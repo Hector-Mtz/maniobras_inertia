@@ -22,4 +22,6 @@ class asistencia extends Model
      public function monto(){
          return $this->belongsTo(monto::class,'monto_id', 'id');
      }
+
+
 }

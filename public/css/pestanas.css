@@ -9,7 +9,7 @@
     box-sizing: border-box;
   }
   .t-tabs li {
-    color: #0c0808;
+    color: #000000;
     padding: 0.5em 0.7em;
     text-decoration: none;
     float: left;
@@ -24,13 +24,13 @@
     cursor: pointer;
   }
   .t-tabs li:hover {
-    background-color: #545454;
+    background-color: #198754;
     color: #d2d2d2;
   }
   .t-tabs li.selected {
-    color: #050607;
+    color: #ffffff;
     cursor: default;
-    background: rgb(79 193 93)
+    background: #198754
   }
   .t-contents {
     padding: 0 !important
