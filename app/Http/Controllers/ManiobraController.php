@@ -70,7 +70,8 @@ class ManiobraController extends Controller
             'montos' => $montos,
             'documentos' => $documentos,
             'load_data_maniobras' => $load_data_maniobras,
-            'load_data_turnos' => $load_data_turnos
+            'load_data_turnos' => $load_data_turnos,
+            'maniobra_id' => $maniobra_id
         ]);
     }
 

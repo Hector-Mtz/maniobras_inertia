@@ -2,7 +2,7 @@ var marker;          //variable del marcador
 var coords = {};    //coordenadas obtenidas con la geolocalización
 
 //Funcion principal
- initMap = function ()
+ export const initMap = function ()
   {
      //usamos la API para geolocalizar el usuario
      navigator.geolocation.getCurrentPosition(
@@ -24,6 +24,7 @@ var coords = {};    //coordenadas obtenidas con la geolocalización
 
  function setMapa (coords)
                     {
+                        console.log(document.getElementById('map'));
                        //Se crea una nueva instancia del objeto mapa
                        var map = new google.maps.Map(document.getElementById('map'),
                        {

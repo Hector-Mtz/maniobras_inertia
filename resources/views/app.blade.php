@@ -30,6 +30,8 @@
 
         <!-- Scripts -->
         @routes
+
+        <script async src="https://maps.googleapis.com/maps/api/js?callback=initMap" defer></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
          <script type="text/javascript" src="{{ asset('js/pestanas.js')}}"></script>
         @inertiaHead
@@ -38,7 +40,7 @@
         @inertia
 
         @env ('local')
-            <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
+            {{-- <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script> --}}
         @endenv
     </body>
    <!--SCRIPT AJAX-->
@@ -47,5 +49,4 @@
    <script src="{{asset('js/websocket.js')}}" defer></script>
    <!--SCRIPT MAPA-->
    <script src="{{asset('js/coordenadas.js')}}"></script>
-   <script async src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
 </html>

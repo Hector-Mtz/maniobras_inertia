@@ -1,7 +1,7 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
 import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue';
@@ -15,15 +15,21 @@ import JetActionSection from '@/Jetstream/ActionSection.vue';
 import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInputError from '@/Jetstream/InputError.vue';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
+import {initMap} from '../utils/coordenadas.js'
 
-defineProps({
+const props = defineProps({
     cedis: Object,
     clientes:Object,
     maniobras:Object,
     turnos:Object,
     users:Object,
     montos:Object,
-    documentos:Object
+    documentos:Object,
+    maniobra_id:{
+        type: String,
+        required: true
+    }
+
 });
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM de CEDIS
@@ -77,10 +83,8 @@ const turno = useForm({
     HoraInicio:'',
     HoraFinal:'',
     NumeroManiobristas:'',
-
     cantidad:'',
-    maniobras_id:'',
-
+    maniobras_id: props.maniobra_id,
     rango:'',
     nota:''
 });
@@ -115,6 +119,7 @@ const NuevaManiobra = ref(false);
 const NuevoTrabajador = ref(false);
 
 const NewCEDIS = () => {
+    initMap();
     NuevoCEDIS.value = true;
 
 };
@@ -145,6 +150,7 @@ const enviarIdCedisManiobra = (idC, idM) => {
   console.log(idC,idM); //comprobamos si recibimos id
   Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM}, { preserveState: true })
 }
+
 
 </script>
 
@@ -210,7 +216,6 @@ const enviarIdCedisManiobra = (idC, idM) => {
                                    <!--FORMULARIO DE INSERCION-->
                                    <li class="t-content">
                                       <form  style="margin-top:5%;" @submit.prevent="agregarTurno" >
-                                        <input type="text"  id="maniobras_id"  v-model="turno.maniobras_id" >
                                          <label for="NombreTurno">Turno:</label>
                                          <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
                                          <label for="FechaInicio">Fecha de inicio</label>

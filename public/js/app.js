@@ -23585,6 +23585,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_DangerButton_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/Jetstream/DangerButton.vue */ "./resources/js/Jetstream/DangerButton.vue");
 /* harmony import */ var _Jetstream_InputError_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/Jetstream/InputError.vue */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_SecondaryButton_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/Jetstream/SecondaryButton.vue */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _utils_coordenadas_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utils/coordenadas.js */ "./resources/js/utils/coordenadas.js");
+
 
 
 
@@ -23609,11 +23611,16 @@ __webpack_require__.r(__webpack_exports__);
     turnos: Object,
     users: Object,
     montos: Object,
-    documentos: Object
+    documentos: Object,
+    maniobra_id: {
+      type: String,
+      required: true
+    }
   },
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
-    expose(); //FUNCION PARA RECUPERAR LOS DATOS DEL FORM de CEDIS
+    expose();
+    var props = __props; //FUNCION PARA RECUPERAR LOS DATOS DEL FORM de CEDIS
 
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)({
       nombreCEDIS: '',
@@ -23675,7 +23682,7 @@ __webpack_require__.r(__webpack_exports__);
       HoraFinal: '',
       NumeroManiobristas: '',
       cantidad: '',
-      maniobras_id: '',
+      maniobras_id: props.maniobra_id,
       rango: '',
       nota: ''
     }); //FUNCION PARA AGREGAR TURNOS
@@ -23715,6 +23722,7 @@ __webpack_require__.r(__webpack_exports__);
     var NuevoTrabajador = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
 
     var NewCEDIS = function NewCEDIS() {
+      (0,_utils_coordenadas_js__WEBPACK_IMPORTED_MODULE_16__.initMap)();
       NuevoCEDIS.value = true;
     };
 
@@ -23749,6 +23757,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     var __returned__ = {
+      props: props,
       form: form,
       agregarCEDIS: agregarCEDIS,
       cliente: cliente,
@@ -23773,6 +23782,7 @@ __webpack_require__.r(__webpack_exports__);
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
       Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link,
       useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
       AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
       JetAuthenticationCard: _Jetstream_AuthenticationCard_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -23786,7 +23796,8 @@ __webpack_require__.r(__webpack_exports__);
       JetActionSection: _Jetstream_ActionSection_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
       JetDangerButton: _Jetstream_DangerButton_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
       JetInputError: _Jetstream_InputError_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
-      JetSecondaryButton: _Jetstream_SecondaryButton_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
+      JetSecondaryButton: _Jetstream_SecondaryButton_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+      initMap: _utils_coordenadas_js__WEBPACK_IMPORTED_MODULE_16__.initMap
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -28457,19 +28468,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "margin-top": "5%"
         },
         onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.agregarTurno, ["prevent"])
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-        type: "text",
-        id: "maniobras_id",
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return $setup.turno.maniobras_id = $event;
-        })
-      }, null, 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.turno.maniobras_id]]), _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "text",
         name: "NombreTurno",
         id: "NombreTurno",
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $setup.turno.NombreTurno = $event;
         }),
         placeholder: "Nombre del turno"
@@ -28479,7 +28482,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "date",
         name: "FechaInicio",
         id: "FechaInicio",
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $setup.turno.FechaInicio = $event;
         }),
         required: ""
@@ -28489,7 +28492,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "date",
         name: "FechaFinal",
         id: "FechaFinal",
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $setup.turno.FechaFinal = $event;
         }),
         required: ""
@@ -28499,7 +28502,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "time",
         id: "appt",
         name: "HoraInicio",
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           return $setup.turno.HoraInicio = $event;
         }),
         required: ""
@@ -28510,7 +28513,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "appt",
         name: "HoraFinal",
         required: "",
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           return $setup.turno.HoraFinal = $event;
         })
       }, null, 512
@@ -28519,7 +28522,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "number",
         placeholder: "0/20",
         name: "NumeroManiobristas",
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $setup.turno.NumeroManiobristas = $event;
         }),
         required: ""
@@ -28528,7 +28531,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.turno.NumeroManiobristas]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Datos para tabla tabla de MONTOS"), _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "number",
         name: "cantidad",
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $setup.turno.cantidad = $event;
         }),
         required: ""
@@ -28538,7 +28541,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "number",
         name: "rango",
         placeholder: "0 KM",
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
           return $setup.turno.rango = $event;
         }),
         required: ""
@@ -28549,7 +28552,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "nota",
         cols: "100",
         rows: "5",
-        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
           return $setup.turno.nota = $event;
         })
       }, null, 512
@@ -28565,7 +28568,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           style: {
             "margin-top": "5%"
           },
-          onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+          onSubmit: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
             return _ctx.actualizarTurno && _ctx.actualizarTurno.apply(_ctx, arguments);
           }, ["prevent"]))
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -28715,7 +28718,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "text",
             id: "nombreCEDIS",
             name: "nombreCEDIS",
-            "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+            "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
               return $setup.form.nombreCEDIS = $event;
             }),
             placeholder: "Nombre del CEDIS"
@@ -28723,7 +28726,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nombreCEDIS]]), _hoisted_88, _hoisted_89, _hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "cliente_id",
-            "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+            "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
               return $setup.form.cliente_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.clientes, function (cliente) {
@@ -28752,7 +28755,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "coords",
             name: "coordenadas",
             placeholder: "Coordenadas",
-            "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+            "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
               return $setup.form.coordenadas = $event;
             }),
             required: ""
@@ -28791,7 +28794,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "nombreCliente",
             type: "text",
             placeholder: "Nombre de cliente",
-            "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+            "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
               return $setup.cliente.nombreCliente = $event;
             })
           }, null, 512
@@ -28829,14 +28832,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "nombreManiobra",
             type: "text",
             placeholder: "Nombre de la maniobra",
-            "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+            "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
               return $setup.maniobra.nombreManiobra = $event;
             })
           }, null, 512
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.maniobra.nombreManiobra]]), _hoisted_115, _hoisted_116, _hoisted_117, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "cedis_id",
-            "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+            "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
               return $setup.maniobra.cedis_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cedis, function (cedi) {
@@ -28856,7 +28859,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "activo",
             id: "flexRadioDefault1",
             value: "1",
-            "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+            "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
               return $setup.maniobra.activo = $event;
             }),
             checked: ""
@@ -28868,7 +28871,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "activo",
             id: "flexRadioDefault2",
             value: "0",
-            "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+            "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
               return $setup.maniobra.activo = $event;
             })
           }, null, 512
@@ -28903,7 +28906,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.agregarTrabajador, ["prevent"])
           }, [_hoisted_131, _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "turno_id",
-            "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+            "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
               return $setup.trabajador.turno_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.turnos, function (turno) {
@@ -28919,7 +28922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.turno_id]]), _hoisted_134, _hoisted_135, _hoisted_136, _hoisted_137, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "user_id",
-            "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+            "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
               return $setup.trabajador.user_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.users, function (user) {
@@ -28935,7 +28938,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.user_id]]), _hoisted_139, _hoisted_140, _hoisted_141, _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "monto_id",
-            "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+            "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
               return $setup.trabajador.monto_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.montos, function (monto) {
@@ -28951,7 +28954,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.monto_id]]), _hoisted_144, _hoisted_145, _hoisted_146, _hoisted_147, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
             id: "documento_id",
-            "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+            "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
               return $setup.trabajador.documento_id = $event;
             })
           }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.documentos, function (documento) {
@@ -28971,7 +28974,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "asistencia",
             id: "flexRadioDefault1",
             value: "1",
-            "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+            "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
               return $setup.trabajador.asistencia = $event;
             }),
             checked: ""
@@ -28983,7 +28986,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             name: "activo",
             id: "flexRadioDefault2",
             value: "0",
-            "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+            "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
               return $setup.trabajador.asistencia = $event;
             })
           }, null, 512
@@ -30337,6 +30340,71 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: "us2",
   forceTLS: true
 });
+
+/***/ }),
+
+/***/ "./resources/js/utils/coordenadas.js":
+/*!*******************************************!*\
+  !*** ./resources/js/utils/coordenadas.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initMap": () => (/* binding */ initMap)
+/* harmony export */ });
+var marker; //variable del marcador
+
+var coords = {}; //coordenadas obtenidas con la geolocalización
+//Funcion principal
+
+var initMap = function initMap() {
+  //usamos la API para geolocalizar el usuario
+  navigator.geolocation.getCurrentPosition(function (position) {
+    coords = {
+      lng: position.coords.longitude,
+      lat: position.coords.latitude
+    };
+    setMapa(coords); //pasamos las coordenadas al metodo para crear el mapa
+  }, function (error) {
+    console.log(error);
+  });
+};
+
+function setMapa(coords) {
+  console.log(document.getElementById('map')); //Se crea una nueva instancia del objeto mapa
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: new google.maps.LatLng(coords.lat, coords.lng)
+  }); //Creamos el marcador en el mapa con sus propiedades
+  //para nuestro obetivo tenemos que poner el atributo draggable en true
+  //position pondremos las mismas coordenas que obtuvimos en la geolocalización
+
+  marker = new google.maps.Marker({
+    map: map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    position: new google.maps.LatLng(coords.lat, coords.lng)
+  }); //agregamos un evento al marcador junto con la funcion callback al igual que el evento dragend que indica
+  //cuando el usuario a soltado el marcador
+
+  marker.addListener('click', toggleBounce);
+  marker.addListener('dragend', function (event) {
+    //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
+    document.getElementById("coords").value = this.getPosition().lat() + "," + this.getPosition().lng();
+  });
+} //callback al hacer clic en el marcador lo que hace es quitar y poner la animacion BOUNCE
+
+
+function toggleBounce() {
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}
 
 /***/ }),
 
