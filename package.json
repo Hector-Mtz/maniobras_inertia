@@ -28,6 +28,7 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "izitoast": "^1.4.0",
         "mdb-ui-kit": "^4.0.0"
     }
 }

@@ -1,8 +1,8 @@
-var marker;          //variable del marcador
+export var marker;          //variable del marcador
 var coords = {};    //coordenadas obtenidas con la geolocalización
 
 //Funcion principal
- export const initMap = function ()
+ export const initMap = function (input)
   {
      //usamos la API para geolocalizar el usuario
      navigator.geolocation.getCurrentPosition(
@@ -60,3 +60,4 @@ var coords = {};    //coordenadas obtenidas con la geolocalización
                         marker.setAnimation(google.maps.Animation.BOUNCE);
                        }
                      }
+

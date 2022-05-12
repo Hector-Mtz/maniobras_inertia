@@ -1,7 +1,7 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
 import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue';
@@ -17,7 +17,7 @@ import JetInputError from '@/Jetstream/InputError.vue';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
 import {initMap} from '../utils/coordenadas.js'
 
-const props = defineProps({
+var props = defineProps({
     cedis: Object,
     clientes:Object,
     maniobras:Object,
@@ -32,6 +32,15 @@ const props = defineProps({
 
 });
 
+
+const enviarIdCedisManiobra = (idC, idM) => {
+  console.log(idC,idM); //comprobamos si recibimos id
+
+  turno.maniobras_id = idM;
+  Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM}, { preserveState: true, preserveScroll:true });
+
+}
+
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM de CEDIS
 const form = useForm({
     nombreCEDIS: '',
@@ -41,9 +50,18 @@ const form = useForm({
 
 //FUNCION PARA AGREGAR NUEVO CEDIS
 const agregarCEDIS = () => {
-    form.post(route('cedis.store'), {
+    form.transform((data) => ({
+         ...data,
+        coordenadas:  document.getElementById("coords").value
+  })).post(route('cedis.store'), {
         onSuccess: () => closeModal(),
         onFinish: () => form.reset(),
+    });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'CEDIS agregado correctamente',
+    position: 'topRight',
     });
 };
 
@@ -57,6 +75,12 @@ const agregarCliente =   () => {
     cliente.post(route('clientes.store'), {
         onSuccess: () => closeModal(),
         onFinish: () => cliente.reset(),
+    });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Cliente agregado correctamente',
+    position: 'topRight',
     });
 };
 
@@ -73,10 +97,16 @@ const agregarManiobra =   () => {
         onSuccess: () => closeModal(),
         onFinish: () => maniobra.reset(),
     });
+
+     iziToast.success({
+    title: 'Correcto',
+    message: 'Maniobra agregada correctamente',
+    position: 'topRight',
+    });
 };
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE turnos
-const turno = useForm({
+var turno = useForm({
     NombreTurno: '',
     FechaInicio : '',
     FechaFinal:'',
@@ -94,6 +124,13 @@ const agregarTurno =   () => {
     turno.post(route('turnos.store'), {
         onFinish: () => turno.reset(),
     });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Turno agregado correctamente',
+    position: 'topRight',
+    });
+
 };
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE trabajadores
@@ -111,16 +148,26 @@ const  agregarTrabajador = () => {
         onFinish: () => trabajador.reset(),
          onSuccess: () => closeModal(),
     });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Trabajador agregado correctamente al turno',
+    position: 'topRight',
+    });
 };
 //FUNCION PARA MODALES
 const NuevoCEDIS = ref(false);
 const NuevoCliente = ref(false);
 const NuevaManiobra = ref(false);
 const NuevoTrabajador = ref(false);
+const verAsis = ref(false);
+
+
 
 const NewCEDIS = () => {
-    initMap();
+    initMap();//se llama la funcion del mapa para que se cree antes de que abra el modal
     NuevoCEDIS.value = true;
+
 
 };
 
@@ -139,17 +186,17 @@ const NewTrabajador =() => {
 
 };
 
+const  verAsistencias =() => {
+    verAsis.value = true;
+
+};
 const closeModal = () => {
     NuevoCEDIS.value = false;
     NuevoCliente.value = false;
     NuevaManiobra.value = false;
     NuevoTrabajador.value = false;
+    verAsis.value = false;
 };
-
-const enviarIdCedisManiobra = (idC, idM) => {
-  console.log(idC,idM); //comprobamos si recibimos id
-  Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM}, { preserveState: true })
-}
 
 
 </script>
@@ -192,7 +239,7 @@ const enviarIdCedisManiobra = (idC, idM) => {
                                <tr v-for="cedi in cedis" :key="cedi.id">
                                  <!--SE RECORRE LAS CEDIS-->
                                     <td>
-                                         <button class="btn btn-success" @click="enviarIdCedisManiobra(cedi.id)">{{cedi.nombreCEDIS}}</button>
+                                         <button class="btn btn-success" style="width:200px" @click="enviarIdCedisManiobra(cedi.id)">{{cedi.nombreCEDIS}}</button>
                                     </td>
                                </tr>
                             </td>
@@ -216,6 +263,7 @@ const enviarIdCedisManiobra = (idC, idM) => {
                                    <!--FORMULARIO DE INSERCION-->
                                    <li class="t-content">
                                       <form  style="margin-top:5%;" @submit.prevent="agregarTurno" >
+                                         <input type="text" v-model="turno.maniobras_id">
                                          <label for="NombreTurno">Turno:</label>
                                          <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
                                          <label for="FechaInicio">Fecha de inicio</label>
@@ -284,7 +332,7 @@ const enviarIdCedisManiobra = (idC, idM) => {
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
                                 <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.id" :key="turno.id" class="t-tab">
-                                   <div class="header">{{turno.NombreTurno}}</div>
+                                   <button class="header btn btn-primary" @click="verAsistencias">{{turno.NombreTurno}}</button>
                                    <div class="content"></div> <!-- Aqui emite los datos de webSocket -->
                                 </div>
                              </td>
@@ -315,7 +363,7 @@ const enviarIdCedisManiobra = (idC, idM) => {
                          <label for="coords">Coordenadas</label>
                          <div id="map"></div>
                          <br>
-                         <input type="text" id="coords" name="coordenadas" placeholder="Coordenadas" v-model="form.coordenadas" required> <br><br>
+                         <input type="text" id="coords"  placeholder="Coordenadas" v-model="form.coordenadas" required> <br><br>
                          <button class="btn btn-success"  type="submit" >Guardar</button>
                      </form><br><br>
 
@@ -388,28 +436,28 @@ const enviarIdCedisManiobra = (idC, idM) => {
                 <template #content>
                     <form @submit.prevent="agregarTrabajador">
                         <label for="turno_id">Turno:</label><br>
-                         <select id="turno_id" v-model="trabajador.turno_id">
+                         <select id="turno_id" v-model="trabajador.turno_id" required>
                            <option  v-for="turno in turnos" :value="turno.id" :key="turno.id">{{turno.NombreTurno}}</option>
                          </select>
                          <br><br>
                          <label for="user_id">Trabajador:</label><br>
-                         <select id="user_id" v-model="trabajador.user_id">
+                         <select id="user_id" v-model="trabajador.user_id" required>
                            <option  v-for="user in users" :value="user.id" :key="user.id">{{user.name}}</option>
                          </select>
                          <br><br>
                          <label for="monto_id">Cantidad a pagar:</label><br>
-                         <select id="monto_id" v-model="trabajador.monto_id">
+                         <select id="monto_id" v-model="trabajador.monto_id" required>
                            <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
                          </select>
                          <br><br>
                            <label for="documento_id">Documento del trabajador:</label><br>
-                           <select id="documento_id" v-model="trabajador.documento_id">
+                           <select id="documento_id" v-model="trabajador.documento_id" required>
                              <option  v-for="documento in documentos" :value="documento.id" :key="documento.id">{{documento.documento}}</option>
                            </select>
                          <br><br>
                          <label for="asistencia">Asistencia</label>
                          <div class="form-check">
-                           <input class="form-check-input" type="radio" name="asistencia" id="flexRadioDefault1" value="1" v-model="trabajador.asistencia"  checked>
+                           <input class="form-check-input" type="radio" name="asistencia" id="flexRadioDefault1" value="1" v-model="trabajador.asistencia">
                            <label class="form-check-label" for="flexRadioDefault1">
                              Si
                            </label>
@@ -423,6 +471,32 @@ const enviarIdCedisManiobra = (idC, idM) => {
                         <br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
                     </form><br><br>
+                     <JetSecondaryButton  @click="closeModal">
+                        Cerrar
+                     </JetSecondaryButton>
+                </template>
+            </ModalManiobras>
+
+
+             <!--Modal para VER DOCUMENTOS DE ESE TRABAJADOR -->
+            <ModalManiobras  :show="verAsis" @close="closeModal">
+                <template #title>
+                   Lista De Asistencia
+                   <table>
+                      <tr>
+                        <th>Lista</th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <td ></td>
+                      </tr>
+                   </table>
+                </template>
+
+                <template #content>
+
                      <JetSecondaryButton  @click="closeModal">
                         Cerrar
                      </JetSecondaryButton>

@@ -22,7 +22,7 @@
    {
 
       let contentAsistencia =
-          '<div class="btn btn-outline-success" style="width:100%; margin-top:2px;" >'
+          '<button   class="btn btn-outline-success" style="width:100%; margin-top:2px;" >'
              contentAsistencia+=
                    `<div class="row">
                       <span class="col-6">Nombre:</span>
@@ -32,7 +32,7 @@
                      <span class="col-6">Cantidad:</span>
                      <span class="col-6">${data.Cantidad}</span>
                    </div>`
-                   
+
       console.log(JSON.stringify(data));
       const userContent = $("#noti-asistencia-"+data.Turno+" .content");
 

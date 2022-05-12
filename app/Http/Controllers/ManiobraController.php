@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\asistencia;
 use App\Models\cedi;
 use App\Models\maniobra;
 use App\Models\cliente;
@@ -60,6 +61,8 @@ class ManiobraController extends Controller
             $turnos= turno::where('maniobras_id','like','%'.$maniobra_id.'%')->get();
         }
 
+        $asistencias = '';
+
 
         return Inertia::render('Maniobras',[
             'cedis'=> $cedis,
@@ -71,7 +74,8 @@ class ManiobraController extends Controller
             'documentos' => $documentos,
             'load_data_maniobras' => $load_data_maniobras,
             'load_data_turnos' => $load_data_turnos,
-            'maniobra_id' => $maniobra_id
+            'maniobra_id' => $maniobra_id,
+            'asistencias' => $asistencias
         ]);
     }
 
