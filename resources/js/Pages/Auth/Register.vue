@@ -20,6 +20,13 @@ const submit = () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
+
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Registro exitoso',
+    position: 'topRight',
+    });
 };
 </script>
 

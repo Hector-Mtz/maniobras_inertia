@@ -28,6 +28,12 @@ const submit = () => {
     })).post(route('login'), {
         onFinish: () => form.reset('password'),
     });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Login correcto',
+    position: 'topRight',
+    });
 };
 </script>
 

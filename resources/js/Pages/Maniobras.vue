@@ -25,6 +25,7 @@ var props = defineProps({
     users:Object,
     montos:Object,
     documentos:Object,
+    asistencias:Object,
     maniobra_id:{
         type: String,
         required: true
@@ -33,11 +34,11 @@ var props = defineProps({
 });
 
 
-const enviarIdCedisManiobra = (idC, idM) => {
-  console.log(idC,idM); //comprobamos si recibimos id
+const enviarIdCedisManiobra = (idC, idM, idT) => {
+  console.log(idC,idM,idT); //comprobamos si recibimos id
 
-  turno.maniobras_id = idM;
-  Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM}, { preserveState: true, preserveScroll:true });
+ // turno.maniobras_id = idM;
+  Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM, idTurno:idT}, { preserveState: true, preserveScroll:true });
 
 }
 
@@ -128,6 +129,19 @@ const agregarTurno =   () => {
     iziToast.success({
     title: 'Correcto',
     message: 'Turno agregado correctamente',
+    position: 'topRight',
+    });
+
+};
+
+const actualizarTurno =   () => {
+    turno.put(route('turnos.update'), {
+        onFinish: () => turno.reset(),
+    });
+
+    iziToast.success({
+    title: 'Correcto',
+    message: 'Turno actualizado correctamente',
     position: 'topRight',
     });
 
@@ -263,7 +277,7 @@ const closeModal = () => {
                                    <!--FORMULARIO DE INSERCION-->
                                    <li class="t-content">
                                       <form  style="margin-top:5%;" @submit.prevent="agregarTurno" >
-                                         <input type="text" v-model="turno.maniobras_id">
+                                         <input type="text" v-model="turno.maniobras_id" hidden required>
                                          <label for="NombreTurno">Turno:</label>
                                          <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
                                          <label for="FechaInicio">Fecha de inicio</label>
@@ -332,8 +346,32 @@ const closeModal = () => {
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
                                 <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.id" :key="turno.id" class="t-tab">
-                                   <button class="header btn btn-primary" @click="verAsistencias">{{turno.NombreTurno}}</button>
-                                   <div class="content"></div> <!-- Aqui emite los datos de webSocket -->
+                                   <!--<button class="header btn btn-primary" @click="verAsistencias" >{{turno.NombreTurno}}</button>-->
+                                   <div class="accordion" id="accordionExample">
+                                      <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne" >
+                                          <button class="accordion-button" @click="enviarIdCedisManiobra(turno.cedis_id,turno.maniobras_id,turno.id)"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                             {{turno.NombreTurno}}
+                                          </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                          <div class="accordion-body">
+                                              <button class="btn btn-outline-secondary" v-for="asistencia in asistencias" :value="asistencia.id" :key="asistencia.id" >
+                                                  <div class="row">
+                                                    <span class="col-6">Nombre:</span>
+                                                    <span class="col-6">{{asistencia.name}}</span>
+                                                    <span class="col-6">Cantidad aceptada:</span>
+                                                    <span class="col-6">{{asistencia.cantidad}}</span>
+                                                  </div>
+                                              </button>
+                                              <!-- Aqui emite los datos de webSocket -->
+                                              <div class="content"> </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                   </div>
+
+
                                 </div>
                              </td>
                            </tr>
@@ -408,7 +446,7 @@ const closeModal = () => {
                          </select>
                          <br><br>
                          <div class="form-check">
-                           <input class="form-check-input" type="radio" name="activo" id="flexRadioDefault1" value="1" v-model="maniobra.activo"  checked>
+                           <input class="form-check-input" type="radio" name="activo" id="flexRadioDefault1" value="1" v-model="maniobra.activo">
                            <label class="form-check-label" for="flexRadioDefault1">
                              Activo
                            </label>

@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ManiobraController extends Controller
 {
@@ -29,7 +30,8 @@ class ManiobraController extends Controller
         $clientes = cliente::all();
         $turnos = [];
         $maniobras = [];
-        $users = User::all();
+        $asistencias= [];
+        $users = User::where('rol_id', 'like','%2%')->get();
         $montos = monto::all();
         $documentos = documento::all();
 
@@ -41,27 +43,60 @@ class ManiobraController extends Controller
 
         $maniobra_id = $request->get('idManiobra'); //recibimos el id desde la vista
 
-        //$turnos = turno::where('maniobras_id','like','%'.$maniobra_id.'%')->get();
+        $turno_id = $request->get('idTurno');
 
         if(isset($_REQUEST['idCedis'])) //si existe el cedis_id declarara las sig variables
         {
-           $maniobras = maniobra::where('cedis_id','like','%'.$cedis_id.'%')->get(); //declara el array de maniobras dependiendo el cedis_id
+           $maniobras = maniobra::where('cedis_id','like','%'.$cedis_id.'%')->
+                                where('activo',1)->get(); //declara el array de maniobras dependiendo el cedis_id
 
         }
 
         if(!isset($_REQUEST['idCedis']))
         {
             $maniobras = [];
-
         }
 
 
         if(isset($_REQUEST['idManiobra']))
         {
-            $turnos= turno::where('maniobras_id','like','%'.$maniobra_id.'%')->get();
+
+             //Turnos
+            $turnos= DB::table(DB::raw('turnos t, maniobras  m, cedis  c'))
+            ->select(DB::raw(
+                't.id as idTurno,
+                t.maniobras_id,
+                t.NombreTurno,
+                t.FechaInicio,
+                t.FechaFinal,
+                t.HoraInicio,
+                t.HoraFinal,
+                t.NumeroManiobristas,
+                t.rango,
+                t.nota,
+                m.id as idManiobra,
+                m.cedis_id,
+                m.nombreManiobra,
+                m.activo,
+                c.id as idCedis,
+                c.nombreCEDIS,
+                c.cliente_id,
+                c.coordenadas'
+                ))
+                ->where('maniobras_id','like','%'.$maniobra_id.'%')
+                ->get();
+
+            /*turno::where('maniobras_id','like','%'.$maniobra_id.'%')
+             ->join('maniobras', 'turnos.maniobras_id','=','maniobras.id')
+             ->join('cedis','maniobras.cedis_id','=','cedis.id')
+             ->get();*/
+
+             //Asistencias
+            $asistencias = asistencia::where('turno_id','=',''.$turno_id.'')
+            ->join('users','asistencias.user_id','=','users.id')
+            ->get();
         }
 
-        $asistencias = '';
 
 
         return Inertia::render('Maniobras',[
