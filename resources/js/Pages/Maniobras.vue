@@ -349,6 +349,7 @@ const closeModal = () => {
                                   <button @click="enviarIdCedisManiobra(turno.cedis_id,turno.maniobras_id,turno.idTurno); verAsistencias();"  type="button" class="btn btn-success" style="width:100%; margin-top:2%;" >
                                     {{turno.NombreTurno}}
                                   </button>
+                                  <h6>Trabajadores que han aceptado justo ahora:</h6>
                                   <!-- Aqui emite los datos de webSocket -->
                                   <div class="content"> </div>
                                 </div>
@@ -498,10 +499,11 @@ const closeModal = () => {
              <!--Modal para VER DOCUMENTOS DE ESE TRABAJADOR -->
             <ModalManiobras  :show="verAsis" @close="closeModal">
                 <template #title>
-                   Lista De Asistencia
-                   <table>
+                     <h5 style="margin:2%;">Lista De Asistencia</h5>
+                   <table class=" table table-striped display">
                       <tr>
-                         <th></th>
+                         <th>Nombre de empleado</th>
+                         <th>Cantidad a pagar</th>
                       </tr>
                       <tr v-for="asistencia in asistencias" :value="asistencia.id" :key="asistencia.id">
                          <td>{{asistencia.name}}</td>
