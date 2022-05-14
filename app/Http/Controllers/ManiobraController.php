@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
+use function GuzzleHttp\Promise\all;
+
 class ManiobraController extends Controller
 {
     /**
@@ -48,7 +50,7 @@ class ManiobraController extends Controller
         if(isset($_REQUEST['idCedis'])) //si existe el cedis_id declarara las sig variables
         {
            $maniobras = maniobra::where('cedis_id','like','%'.$cedis_id.'%')->
-                                where('activo',1)->get(); //declara el array de maniobras dependiendo el cedis_id
+                                 where('activo',1)->get(); //declara el array de maniobras dependiendo el cedis_id
 
         }
 
@@ -60,9 +62,9 @@ class ManiobraController extends Controller
 
         if(isset($_REQUEST['idManiobra']))
         {
-
              //Turnos
-            $turnos= DB::table(DB::raw('turnos t, maniobras  m, cedis  c'))
+            $turnos=
+            DB::table(DB::raw('turnos t, maniobras  m, cedis  c'))
             ->select(DB::raw(
                 't.id as idTurno,
                 t.maniobras_id,
@@ -83,17 +85,14 @@ class ManiobraController extends Controller
                 c.cliente_id,
                 c.coordenadas'
                 ))
-                ->where('maniobras_id','like','%'.$maniobra_id.'%')
-                ->get();
+            ->where('maniobras_id','like','%'.$maniobra_id.'%')->get();
 
-            /*turno::where('maniobras_id','like','%'.$maniobra_id.'%')
-             ->join('maniobras', 'turnos.maniobras_id','=','maniobras.id')
-             ->join('cedis','maniobras.cedis_id','=','cedis.id')
-             ->get();*/
 
-             //Asistencias
-            $asistencias = asistencia::where('turno_id','=',''.$turno_id.'')
+            //Asistencias
+            $asistencias = DB::table('asistencias')
             ->join('users','asistencias.user_id','=','users.id')
+            ->join('montos', 'asistencias.monto_id','=','montos.id')
+            ->where('asistencias.turno_id','=',''.$turno_id.'')
             ->get();
         }
 

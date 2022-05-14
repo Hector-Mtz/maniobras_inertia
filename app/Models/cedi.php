@@ -13,4 +13,8 @@ class cedi extends Model
      'coordenadas',
      'cliente_id'
     ];
+
+    public function cliente(){
+        return $this->belongsTo(cliente::class, 'cliente_id', 'id');
+    }
 }

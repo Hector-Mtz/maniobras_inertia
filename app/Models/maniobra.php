@@ -19,4 +19,8 @@ class maniobra extends Model
     		return $query->where('idCEDISFk','like',"%$idCedis%");
     	}
     }
+
+    public function cedi(){
+        return $this->belongsTo(cedi::class, 'cedis_id', 'id');
+    }
 }

@@ -18,4 +18,8 @@ class turno extends Model
      'rango',
      'nota'
     ];
+
+    public function maniobra(){
+        return $this->belongsTo(maniobra::class, 'maniobra_id', 'id');
+    }
 }

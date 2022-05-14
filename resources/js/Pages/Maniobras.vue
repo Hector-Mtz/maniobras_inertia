@@ -345,33 +345,12 @@ const closeModal = () => {
                              </td>
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
-                                <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.id" :key="turno.id" class="t-tab">
-                                   <!--<button class="header btn btn-primary" @click="verAsistencias" >{{turno.NombreTurno}}</button>-->
-                                   <div class="accordion" id="accordionExample">
-                                      <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingOne" >
-                                          <button class="accordion-button" @click="enviarIdCedisManiobra(turno.cedis_id,turno.maniobras_id,turno.id)"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                             {{turno.NombreTurno}}
-                                          </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                          <div class="accordion-body">
-                                              <button class="btn btn-outline-secondary" v-for="asistencia in asistencias" :value="asistencia.id" :key="asistencia.id" >
-                                                  <div class="row">
-                                                    <span class="col-6">Nombre:</span>
-                                                    <span class="col-6">{{asistencia.name}}</span>
-                                                    <span class="col-6">Cantidad aceptada:</span>
-                                                    <span class="col-6">{{asistencia.cantidad}}</span>
-                                                  </div>
-                                              </button>
-                                              <!-- Aqui emite los datos de webSocket -->
-                                              <div class="content"> </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                   </div>
-
-
+                                <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.idTurno" :key="turno.id" class="t-tab">
+                                  <button @click="enviarIdCedisManiobra(turno.cedis_id,turno.maniobras_id,turno.idTurno); verAsistencias();"  type="button" class="btn btn-success" style="width:100%; margin-top:2%;" >
+                                    {{turno.NombreTurno}}
+                                  </button>
+                                  <!-- Aqui emite los datos de webSocket -->
+                                  <div class="content"> </div>
                                 </div>
                              </td>
                            </tr>
@@ -522,13 +501,11 @@ const closeModal = () => {
                    Lista De Asistencia
                    <table>
                       <tr>
-                        <th>Lista</th>
+                         <th></th>
                       </tr>
-                      <tr>
-                        <th></th>
-                      </tr>
-                      <tr>
-                        <td ></td>
+                      <tr v-for="asistencia in asistencias" :value="asistencia.id" :key="asistencia.id">
+                         <td>{{asistencia.name}}</td>
+                         <td>{{asistencia.cantidad}}</td>
                       </tr>
                    </table>
                 </template>
