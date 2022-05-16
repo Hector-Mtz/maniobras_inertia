@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class lista_asistencia extends Model
 {
     use HasFactory;
+
+    protected $fillable = [];
 }

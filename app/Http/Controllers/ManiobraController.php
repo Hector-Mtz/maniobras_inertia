@@ -7,6 +7,7 @@ use App\Models\cedi;
 use App\Models\maniobra;
 use App\Models\cliente;
 use App\Models\documento;
+use App\Models\lista_asistencia;
 use App\Models\monto;
 use App\Models\turno;
 use App\Models\User;
@@ -36,6 +37,7 @@ class ManiobraController extends Controller
         $users = User::where('rol_id', 'like','%2%')->get();
         $montos = monto::all();
         $documentos = documento::all();
+        $lista_asistencias = [];
 
         //Funciones para ocultar elementos HTML
         $load_data_maniobras = 'false'; //no debe mostrarse si es true
@@ -94,6 +96,9 @@ class ManiobraController extends Controller
             ->join('montos', 'asistencias.monto_id','=','montos.id')
             ->where('asistencias.turno_id','=',''.$turno_id.'')
             ->get();
+
+            $lista_asistencias = lista_asistencia::all()
+            ->join('turnos', 'lista_asistencias.turno_id','=','turno.id');
         }
 
 
@@ -109,7 +114,8 @@ class ManiobraController extends Controller
             'load_data_maniobras' => $load_data_maniobras,
             'load_data_turnos' => $load_data_turnos,
             'maniobra_id' => $maniobra_id,
-            'asistencias' => $asistencias
+            'asistencias' => $asistencias,
+            'lista_asistencias' => $lista_asistencias
         ]);
     }
 

@@ -29,7 +29,8 @@ var props = defineProps({
     maniobra_id:{
         type: String,
         required: true
-    }
+    },
+    lista_asistencias:Object
 
 });
 
@@ -354,6 +355,17 @@ const closeModal = () => {
                                   <div class="content"> </div>
                                 </div>
                              </td>
+                           </tr>
+
+                           <tr>
+                              <td colspan="2">
+                              </td>
+                              <td colspan="0">
+                                 <h4 style="text-align:center;">REPORTES</h4>
+
+                              </td>
+                              <td colspan="1">
+                              </td>
                            </tr>
                          </tbody>
                       </table>
