@@ -11,6 +11,7 @@ import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import ModalManiobras from '@/Components/DialogModal.vue';
+import TablaReportes from '@/Components/reportes.vue';
 import JetActionSection from '@/Jetstream/ActionSection.vue';
 import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInputError from '@/Jetstream/InputError.vue';
@@ -356,23 +357,8 @@ const closeModal = () => {
                                 </div>
                              </td>
                            </tr>
-
-                           <tr>
-                              <td colspan="2">
-                              </td>
-                              <td colspan="0">
-                                 <h4 style="text-align:center;">REPORTES</h4>
-                                 <form >
-                                     <label for="FechaFinal" style="margin:1%;">Fecha Inicio:</label>
-                                     <input type="date" name="FechaInicio" id="FechaInicio" v-model="FechaInicio" required style="margin:1%;">
-                                     <label for="FechaFinal" style="margin:1%;">Fecha de final:</label>
-                                     <input type="date" name="FechaFinal" id="FechaFinal" v-model="FechaFinal" required style="margin:1%;">
-                                     <br>
-                                     <button class="btn btn-outline-success" >Generar reporte</button>
-                                 </form>
-                              </td>
-                              <td colspan="1">
-                              </td>
+                           <tr> <!--NUEVA TABLA-->
+                              <TablaReportes> </TablaReportes>
                            </tr>
                          </tbody>
                       </table>
@@ -467,17 +453,17 @@ const closeModal = () => {
             <!--Modal para AGREGAR Trabajadores -->
             <ModalManiobras :show="NuevoTrabajador" @close="closeModal">
                 <template #title>
-                    Agregar nuevo trabajador
+                    Agregar nuevo trabajador ya registrado.
                 </template>
 
                 <template #content>
                     <form @submit.prevent="agregarTrabajador">
-                        <label for="turno_id">Turno:</label><br>
+                        <label for="turno_id">Turnos disponibles:</label><br>
                          <select id="turno_id" v-model="trabajador.turno_id" required>
                            <option  v-for="turno in turnos" :value="turno.id" :key="turno.id">{{turno.NombreTurno}}</option>
                          </select>
                          <br><br>
-                         <label for="user_id">Trabajador:</label><br>
+                         <label for="user_id">Usuario:</label><br>
                          <select id="user_id" v-model="trabajador.user_id" required>
                            <option  v-for="user in users" :value="user.id" :key="user.id">{{user.name}}</option>
                          </select>
@@ -487,25 +473,6 @@ const closeModal = () => {
                            <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
                          </select>
                          <br><br>
-                           <label for="documento_id">Documento del trabajador:</label><br>
-                           <select id="documento_id" v-model="trabajador.documento_id" required>
-                             <option  v-for="documento in documentos" :value="documento.id" :key="documento.id">{{documento.documento}}</option>
-                           </select>
-                         <br><br>
-                         <label for="asistencia">Asistencia</label>
-                         <div class="form-check">
-                           <input class="form-check-input" type="radio" name="asistencia" id="flexRadioDefault1" value="1" v-model="trabajador.asistencia">
-                           <label class="form-check-label" for="flexRadioDefault1">
-                             Si
-                           </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="activo" id="flexRadioDefault2" value="0" v-model="trabajador.asistencia" >
-                          <label class="form-check-label" for="flexRadioDefault2">
-                            No
-                          </label>
-                        </div>
-                        <br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
                     </form><br><br>
                      <JetSecondaryButton  @click="closeModal">

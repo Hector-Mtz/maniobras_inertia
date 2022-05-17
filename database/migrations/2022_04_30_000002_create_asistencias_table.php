@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreignId('turno_id')->constrained('turnos');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('monto_id')->constrained('montos');
-            $table->foreignId('documento_id')->constrained('documentos');
-            $table->boolean('asistencia');
             $table->timestamps();
         });
     }

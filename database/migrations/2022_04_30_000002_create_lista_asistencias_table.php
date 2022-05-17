@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('lista_asistencias', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('turno_id')->constrained('turnos');
+            $table->foreignId('asistencia_id')->constrained('asistencias');
+            $table->date('FechaDeRegistro');
+            $table->string('img'); //FOTO DE EVIDENCIA
             $table->timestamps();
         });
     }

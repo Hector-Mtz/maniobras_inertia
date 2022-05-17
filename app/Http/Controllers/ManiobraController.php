@@ -89,17 +89,6 @@ class ManiobraController extends Controller
                 ))
             ->where('maniobras_id','like','%'.$maniobra_id.'%')->get();
 
-
-            //Asistencias
-            $asistencias = DB::table('asistencias')
-            ->join('users','asistencias.user_id','=','users.id')
-            ->join('montos', 'asistencias.monto_id','=','montos.id')
-            ->where('asistencias.turno_id','=',''.$turno_id.'')
-            ->where('asistencia','=','1')
-            ->get();
-
-            $lista_asistencias = lista_asistencia::all()
-            ->join('turnos', 'lista_asistencias.turno_id','=','turno.id');
         }
 
 
