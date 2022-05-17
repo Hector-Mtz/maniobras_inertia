@@ -362,7 +362,14 @@ const closeModal = () => {
                               </td>
                               <td colspan="0">
                                  <h4 style="text-align:center;">REPORTES</h4>
-
+                                 <form action="">
+                                     <label for="FechaFinal" style="margin:1%;">Fecha Inicio:</label>
+                                     <input type="date" name="FechaInicio" id="FechaInicio" v-model="FechaInicio" required style="margin:1%;">
+                                     <label for="FechaFinal" style="margin:1%;">Fecha de final:</label>
+                                     <input type="date" name="FechaFinal" id="FechaFinal" v-model="FechaFinal" required style="margin:1%;">
+                                     <br>
+                                     <button class="btn btn-outline-success" >Generar reporte</button>
+                                 </form>
                               </td>
                               <td colspan="1">
                               </td>
