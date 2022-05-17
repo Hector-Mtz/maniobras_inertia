@@ -213,7 +213,7 @@ const closeModal = () => {
     verAsis.value = false;
 };
 
-
+//INSTALAR --ignore-platform-req=ext-gd  PARA "maatwebsite/excel": "^3.1.40 " Y phpoffice/phpspreadsheet": "^1.23.0",
 </script>
 
 
@@ -541,3 +541,5 @@ const closeModal = () => {
         </div>
     </AppLayout>
 </template>
+
+

@@ -23825,7 +23825,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       NuevaManiobra.value = false;
       NuevoTrabajador.value = false;
       verAsis.value = false;
-    };
+    }; //INSTALAR --ignore-platform-req=ext-gd  PARA "maatwebsite/excel": "^3.1.40 " Y phpoffice/phpspreadsheet": "^1.23.0",
+
 
     var __returned__ = {
       props: props,
