@@ -362,7 +362,7 @@ const closeModal = () => {
                               </td>
                               <td colspan="0">
                                  <h4 style="text-align:center;">REPORTES</h4>
-                                 <form action="">
+                                 <form >
                                      <label for="FechaFinal" style="margin:1%;">Fecha Inicio:</label>
                                      <input type="date" name="FechaInicio" id="FechaInicio" v-model="FechaInicio" required style="margin:1%;">
                                      <label for="FechaFinal" style="margin:1%;">Fecha de final:</label>

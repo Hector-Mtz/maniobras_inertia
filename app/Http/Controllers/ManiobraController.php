@@ -95,6 +95,7 @@ class ManiobraController extends Controller
             ->join('users','asistencias.user_id','=','users.id')
             ->join('montos', 'asistencias.monto_id','=','montos.id')
             ->where('asistencias.turno_id','=',''.$turno_id.'')
+            ->where('asistencia','=','1')
             ->get();
 
             $lista_asistencias = lista_asistencia::all()
