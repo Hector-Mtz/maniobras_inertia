@@ -17,6 +17,7 @@ import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInputError from '@/Jetstream/InputError.vue';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
 import {initMap} from '../utils/coordenadas.js'
+import axios from 'axios';
 
 var props = defineProps({
     cedis: Object,
@@ -109,24 +110,32 @@ const agregarManiobra =   () => {
 };
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE turnos
+watch(() => props.maniobra_id,(nuevaIDManiobra) => { //el whatcher observa el cambio de id
+       console.log(nuevaIDManiobra);  //lo imprime
+       turno.maniobras_id = nuevaIDManiobra;  //y cabmia la variable del formulario
+     });
+
 var turno = useForm({
     NombreTurno: '',
     FechaInicio : '',
     FechaFinal:'',
     HoraInicio:'',
     HoraFinal:'',
-    NumeroManiobristas:'',
+    NumeroManiobristas: '',
     cantidad:'',
-    maniobras_id: props.maniobra_id,
+    maniobras_id: '',
     rango:'',
     nota:''
 });
 
+
+
 //FUNCION PARA AGREGAR TURNOS
-const agregarTurno =   () => {
-    turno.post(route('turnos.store'), {
-        onFinish: () => turno.reset(),
+ const agregarTurno =   () => {
+       turno.post(route('turnos.store'), {
+       onFinish: () => turno.reset(),
     });
+
 
     iziToast.success({
     title: 'Correcto',
@@ -150,13 +159,17 @@ const actualizarTurno =   () => {
 };
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE trabajadores
+
 const trabajador = useForm({
-    asistencia: '',
     turno_id: '',
     user_id:'',
-    documento_id:'',
     monto_id:''
 });
+
+watch(() => trabajador.turno_id,(nuevoIdTurno) => { //el whatcher observa el cambio de id
+       console.log('El id del select del turno es ' + nuevoIdTurno);  //lo imprime
+
+     });
 
 //FUNCION PARA AGREGAR TRABAJADORES
 const  agregarTrabajador = () => {
@@ -213,6 +226,9 @@ const closeModal = () => {
     NuevoTrabajador.value = false;
     verAsis.value = false;
 };
+
+
+
 
 //INSTALAR --ignore-platform-req=ext-gd  PARA "maatwebsite/excel": "^3.1.40 " Y phpoffice/phpspreadsheet": "^1.23.0",
 </script>
@@ -279,7 +295,7 @@ const closeModal = () => {
                                    <!--FORMULARIO DE INSERCION-->
                                    <li class="t-content">
                                       <form  style="margin-top:5%;" @submit.prevent="agregarTurno" >
-                                         <input type="text" v-model="turno.maniobras_id" hidden required>
+                                         <input type="text" v-model="turno.maniobras_id"  hidden required>
                                          <label for="NombreTurno">Turno:</label>
                                          <input type="text" name="NombreTurno" id="NombreTurno" v-model="turno.NombreTurno" placeholder="Nombre del turno">
                                          <label for="FechaInicio">Fecha de inicio</label>
@@ -347,18 +363,26 @@ const closeModal = () => {
                              </td>
                              <!--SE DESPLIAGAN LAS NOTIFICACIONES-->
                              <td class="p-3">
-                                <div v-bind:id="'noti-asistencia-' + turno.id"  v-for="turno in turnos" :value="turno.idTurno" :key="turno.id" class="t-tab">
+                                <div v-bind:id="'noti-asistencia-' + turno.idTurno"  v-for="turno in turnos" :value="turno.idTurno" :key="turno.id" class="t-tab">
                                   <button @click="enviarIdCedisManiobra(turno.cedis_id,turno.maniobras_id,turno.idTurno); verAsistencias();"  type="button" class="btn btn-success" style="width:100%; margin-top:2%;" >
                                     {{turno.NombreTurno}}
                                   </button>
-                                  <h6>Trabajadores que han aceptado justo ahora:</h6>
+                                  <h6>Usuarios que se han registrado al turno justo ahora:</h6>
                                   <!-- Aqui emite los datos de webSocket -->
                                   <div class="content"> </div>
                                 </div>
                              </td>
                            </tr>
-                           <tr> <!--NUEVA TABLA-->
-                              <TablaReportes> </TablaReportes>
+                           <tr>
+                             <td colspan="5">
+                             <!--NUEVA TABLA y pasamos los props necesarios-->
+                              <TablaReportes
+                                :cedis="props.cedis"
+                                :maniobras="props.maniobras"
+                                :asistencias="props.asistencias"
+                               >
+                               </TablaReportes>
+                             </td>
                            </tr>
                          </tbody>
                       </table>
@@ -453,25 +477,30 @@ const closeModal = () => {
             <!--Modal para AGREGAR Trabajadores -->
             <ModalManiobras :show="NuevoTrabajador" @close="closeModal">
                 <template #title>
-                    Agregar nuevo trabajador ya registrado.
+                    Registrar usuario a turno
                 </template>
 
                 <template #content>
                     <form @submit.prevent="agregarTrabajador">
-                        <label for="turno_id">Turnos disponibles:</label><br>
-                         <select id="turno_id" v-model="trabajador.turno_id" required>
-                           <option  v-for="turno in turnos" :value="turno.id" :key="turno.id">{{turno.NombreTurno}}</option>
-                         </select>
-                         <br><br>
-                         <label for="user_id">Usuario:</label><br>
-                         <select id="user_id" v-model="trabajador.user_id" required>
+                        <label for="user_id">Usuario:</label><br>
+                        <select id="user_id" v-model="trabajador.user_id" required>
                            <option  v-for="user in users" :value="user.id" :key="user.id">{{user.name}}</option>
+                        </select>
+                        <br><br>
+
+                        <label for="turno_id">Turnos disponibles:</label><br>
+                         <select id="turno_id" v-model="trabajador.turno_id" required >
+                           <option  v-for="turno in turnos" :value="turno.idTurno" :key="turno.id">{{turno.NombreTurno}}</option>
                          </select>
                          <br><br>
-                         <label for="monto_id">Cantidad a pagar:</label><br>
-                         <select id="monto_id" v-model="trabajador.monto_id" required>
-                           <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
-                         </select>
+
+                        <div v-if="montos != null">
+                            <label for="monto_id">Cantidades disponibles referentes al turno:</label><br>
+                            <select id="monto_id" v-model="trabajador.monto_id" required >
+                              <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
+                            </select>
+                        </div>
+
                          <br><br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
                     </form><br><br>
@@ -482,10 +511,10 @@ const closeModal = () => {
             </ModalManiobras>
 
 
-             <!--Modal para VER DOCUMENTOS DE ESE TRABAJADOR -->
+             <!--Modal para ver usuarios que se han registrado para el turno -->
             <ModalManiobras  :show="verAsis" @close="closeModal">
                 <template #title>
-                     <h5 style="margin:2%;">Lista De Asistencia</h5>
+                     <h5 style="margin:2%;">Usuarios que se han registrado para el turno.</h5>
                    <table class=" table table-striped display">
                       <tr>
                          <th>Nombre de empleado</th>
