@@ -38,6 +38,8 @@ class AsistenciaController extends Controller
     {
         // $user = Auth::user();
         // broadcast(new turnosactivos($user));
+
+
         $asistencia = new asistencia(); //Necesitamso guardar el registro que se emitira en una variable
 
         $asistencia->user_id = $request->user_id; //manda a llamar todos los elementos insetados en la BD
@@ -45,10 +47,6 @@ class AsistenciaController extends Controller
         $asistencia->turno_id = $request->turno_id;
 
         $asistencia->monto_id = $request->monto_id;
-
-        $asistencia->documento_id = $request->documento_id  ;
-
-        $asistencia->asistencia = $request->asistencia;
 
         $asistencia->save(); //guarda todos los datos y los envia
 

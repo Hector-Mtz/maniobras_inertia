@@ -26,6 +26,8 @@ class ManiobraController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public $trabajador = null, $selectedMonto = null;
+
     public function index(Request $request)
     {
         //Traemos estos de inicio
@@ -35,9 +37,11 @@ class ManiobraController extends Controller
         $maniobras = [];
         $asistencias= [];
         $users = User::where('rol_id', 'like','%2%')->get();
-        $montos = monto::all();
+        $montos = null;
         $documentos = documento::all();
         $lista_asistencias = [];
+
+        $turnoSelect = $request->post('turnoSelect');
 
         //Funciones para ocultar elementos HTML
         $load_data_maniobras = 'false'; //no debe mostrarse si es true
@@ -66,9 +70,9 @@ class ManiobraController extends Controller
         {
              //Turnos
             $turnos=
-            DB::table(DB::raw('turnos t, maniobras  m, cedis  c'))
+            DB::table(DB::raw('turnos t'))
             ->select(DB::raw(
-                't.id as idTurno,
+                't.id AS idTurno,
                 t.maniobras_id,
                 t.NombreTurno,
                 t.FechaInicio,
@@ -78,17 +82,31 @@ class ManiobraController extends Controller
                 t.NumeroManiobristas,
                 t.rango,
                 t.nota,
-                m.id as idManiobra,
+                m.id AS idManiobra,
                 m.cedis_id,
                 m.nombreManiobra,
                 m.activo,
-                c.id as idCedis,
+                c.id AS idCedis,
                 c.nombreCEDIS,
                 c.cliente_id,
-                c.coordenadas'
+                c.coordenadas
+                '
                 ))
-            ->where('maniobras_id','like','%'.$maniobra_id.'%')->get();
+            ->join('maniobras AS m','t.maniobras_id','=','m.id')
+            ->join('cedis AS c','m.cedis_id','=','c.id')
+            ->where('t.maniobras_id','like','%'.$maniobra_id.'%')->get();
 
+            //DEBEN APARECER  DEPENDIENDO EL TURNO QUE SE DE EN EL SELECT
+             $asistencias = asistencia::
+                                        join('users','asistencias.user_id','=','users.id')
+                                       ->join('montos','asistencias.monto_id','=','montos.id')
+                                       ->where('asistencias.turno_id','like','%'.$turno_id.'%')
+                                       ->get();
+
+        }
+
+        if(isset($turnoSelect)){
+            $montos= monto::where('turno_id','like','%'.$turnoSelect.'%')->get();
         }
 
 
