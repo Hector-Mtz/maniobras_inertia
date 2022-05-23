@@ -11,7 +11,6 @@ import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import ModalManiobras from '@/Components/DialogModal.vue';
-import TablaReportes from '@/Components/reportes.vue';
 import JetActionSection from '@/Jetstream/ActionSection.vue';
 import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInputError from '@/Jetstream/InputError.vue';
@@ -32,8 +31,7 @@ var props = defineProps({
         type: String,
         required: true
     },
-    lista_asistencias:Object
-
+    reportes:Object,
 });
 
 
@@ -159,7 +157,6 @@ const actualizarTurno =   () => {
 };
 
 //FUNCION PARA RECUPERAR LOS DATOS DEL FORM DE trabajadores
-
 const trabajador = useForm({
     turno_id: '',
     user_id:'',
@@ -228,6 +225,17 @@ const closeModal = () => {
 };
 
 
+const reporte = useForm({
+    FechaInicioReporte: '',
+    FechaFinalReporte:''
+});
+
+//FUNCION PARA CONSULTAR REPORTES
+const  consultarReporte = () => {
+    reporte.get(route('listaasistencia.export'), {
+        onFinish: () => reporte.reset(),
+    });
+};
 
 
 //INSTALAR --ignore-platform-req=ext-gd  PARA "maatwebsite/excel": "^3.1.40 " Y phpoffice/phpspreadsheet": "^1.23.0",
@@ -374,14 +382,17 @@ const closeModal = () => {
                              </td>
                            </tr>
                            <tr>
-                             <td colspan="5">
-                             <!--NUEVA TABLA y pasamos los props necesarios-->
-                              <TablaReportes
-                                :cedis="props.cedis"
-                                :maniobras="props.maniobras"
-                                :asistencias="props.asistencias"
-                               >
-                               </TablaReportes>
+                             <td colspan="4">
+                                <h4>Reportes</h4>
+                                   <form>
+                                     <label for="FechaInicioReporte">Fecha inicial:</label>
+                                     <input type="date" name="FechaInicioReporte" id="FechaInicioReporte" v-model="reporte.FechaInicioReporte" style="margin:1%;" required>
+                                     <label for="FechaInicioReporte">Fecha final:</label>
+                                     <input type="date" name="FechaFinalReporte" id="FechaFinalReporte" v-model="reporte.FechaFinalReporte" style="margin:1%;" required>
+                                     <button type="submit">Consultar Reportes</button>
+                                    </form>
+                             </td>
+                             <td colspan="4">
                              </td>
                            </tr>
                          </tbody>
@@ -504,6 +515,9 @@ const closeModal = () => {
                          <br><br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
                     </form><br><br>
+                    <pre>
+
+                    </pre>
                      <JetSecondaryButton  @click="closeModal">
                         Cerrar
                      </JetSecondaryButton>
