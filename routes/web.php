@@ -3,6 +3,7 @@
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CediController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ListaAsistenciaController;
 use App\Http\Controllers\ManiobraController;
 use App\Http\Controllers\MontoController;
 use App\Http\Controllers\TurnoController;
@@ -50,6 +51,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',
     Route::apiResource('/turnos', TurnoController::class);
     Route::apiResource('/montos', MontoController::class);
     Route::apiResource('/asistencia', AsistenciaController::class);
+    //Route::apiResource('/lista_asistencia', ListaAsistenciaController::class);
+    Route::get('/lista_asistencia/export/', [ListaAsistenciaController::class, 'export']);
+
 
 
 

@@ -22,4 +22,8 @@ class turno extends Model
     public function maniobra(){
         return $this->belongsTo(maniobra::class, 'maniobra_id', 'id');
     }
+
+    public static function montos($id){
+        return monto::where('turno_id','=',$id)->get();
+    }
 }

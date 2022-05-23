@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ListaExport;
 use App\Models\lista_asistencia;
 use Illuminate\Http\Request;
+
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListaAsistenciaController extends Controller
 {
@@ -15,6 +19,12 @@ class ListaAsistenciaController extends Controller
     public function index()
     {
         //
+    }
+
+    public function export()
+    {
+        //
+        return Excel::download(new ListaExport, 'lista.xlsx');
     }
 
     /**

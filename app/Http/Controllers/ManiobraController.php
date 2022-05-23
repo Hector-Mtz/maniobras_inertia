@@ -26,7 +26,6 @@ class ManiobraController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public $trabajador = null, $selectedMonto = null;
 
     public function index(Request $request)
     {
@@ -39,9 +38,7 @@ class ManiobraController extends Controller
         $users = User::where('rol_id', 'like','%2%')->get();
         $montos = null;
         $documentos = documento::all();
-        $lista_asistencias = [];
 
-        $turnoSelect = $request->post('turnoSelect');
 
         //Funciones para ocultar elementos HTML
         $load_data_maniobras = 'false'; //no debe mostrarse si es true
@@ -52,6 +49,8 @@ class ManiobraController extends Controller
         $maniobra_id = $request->get('idManiobra'); //recibimos el id desde la vista
 
         $turno_id = $request->get('idTurno');
+
+
 
         if(isset($_REQUEST['idCedis'])) //si existe el cedis_id declarara las sig variables
         {
@@ -105,10 +104,12 @@ class ManiobraController extends Controller
 
         }
 
+
+        $turnoSelect = null;
+
         if(isset($turnoSelect)){
             $montos= monto::where('turno_id','like','%'.$turnoSelect.'%')->get();
         }
-
 
 
         return Inertia::render('Maniobras',[
@@ -123,9 +124,9 @@ class ManiobraController extends Controller
             'load_data_turnos' => $load_data_turnos,
             'maniobra_id' => $maniobra_id,
             'asistencias' => $asistencias,
-            'lista_asistencias' => $lista_asistencias
         ]);
     }
+
 
 
 
