@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Exports\ListaExport;
 use App\Models\lista_asistencia;
 use Illuminate\Http\Request;
-
+use Inertia\Inertia;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Laravel\Jetstream\Http\Middleware\ShareInertiaData;
+use Laravel\Jetstream\InertiaManager;
 
 class ListaAsistenciaController extends Controller
 {
@@ -16,9 +19,24 @@ class ListaAsistenciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //recibimos los datos en array
+        $fechaInicio =request()->except('FechaFinalReporte');
+        $fechaFinal =request()->except('FechaInicioReporte');
+
+        //convertimos el array a string
+        $fechaInicioString = implode($fechaInicio);
+        $fechaFinalString = implode($fechaFinal);
+
+        //CONSULTA PARA FILTRO DE REPORTES
+
+        $lista = DB::table('lista_asistencias')
+                 ->select('FechaDeRegistro')
+                 ->whereBetween('FechaDeRegistro',[$fechaInicioString,$fechaFinalString] )->get();
+       // $lista= lista_asistencia::all();
+
+
     }
 
     public function export()
