@@ -27,7 +27,7 @@ class ManiobraController extends Controller
      */
 
 
-    public function index(Request $request)
+    public function index(Request $request )
     {
         //Traemos estos de inicio
         $cedis = cedi::all();
@@ -39,16 +39,15 @@ class ManiobraController extends Controller
         $montos = null;
         $documentos = documento::all();
 
-
         //Funciones para ocultar elementos HTML
-        $load_data_maniobras = 'false'; //no debe mostrarse si es true
-        $load_data_turnos = 'false';
+        $load_data_maniobras = false; //no debe mostrarse si es false
+        $load_data_turnos = false;
 
         $cedis_id = $request->get('idCedis'); //recibimos el id desde la vista
 
         $maniobra_id = $request->get('idManiobra'); //recibimos el id desde la vista
 
-        $turno_id = $request->get('idTurno');
+        $turno_id = $request->get('idTurno'); //se recibe el id que viene desde el boton
 
 
 
@@ -57,11 +56,16 @@ class ManiobraController extends Controller
            $maniobras = maniobra::where('cedis_id','like','%'.$cedis_id.'%')->
                                  where('activo',1)->get(); //declara el array de maniobras dependiendo el cedis_id
 
+           $load_data_maniobras= true;
+           $load_data_turnos = false;
+
         }
 
         if(!isset($_REQUEST['idCedis']))
         {
             $maniobras = [];
+            $load_data_maniobras= false;
+            $load_data_turnos = false;
         }
 
 
@@ -102,10 +106,11 @@ class ManiobraController extends Controller
                                        ->where('asistencias.turno_id','like','%'.$turno_id.'%')
                                        ->get();
 
+             $load_data_turnos = true;
         }
 
 
-        $turnoSelect = null;
+        $turnoSelect = $request->turnoIdNuevo;
 
         if(isset($turnoSelect)){
             $montos= monto::where('turno_id','like','%'.$turnoSelect.'%')->get();
@@ -124,6 +129,8 @@ class ManiobraController extends Controller
             'load_data_turnos' => $load_data_turnos,
             'maniobra_id' => $maniobra_id,
             'asistencias' => $asistencias,
+
+            'turnoSelected'=>$turnoSelect
         ]);
     }
 

@@ -11,6 +11,7 @@ import JetCheckbox from '@/Jetstream/Checkbox.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import ModalManiobras from '@/Components/DialogModal.vue';
+import Reports from '@/Components/Reportes.vue';
 import JetActionSection from '@/Jetstream/ActionSection.vue';
 import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInputError from '@/Jetstream/InputError.vue';
@@ -32,6 +33,9 @@ var props = defineProps({
         required: true
     },
     reportes:Object,
+    load_data_maniobras:Boolean,
+    load_data_turnos:Boolean,
+    turnoSelected:Number
 });
 
 
@@ -121,7 +125,7 @@ var turno = useForm({
     HoraFinal:'',
     NumeroManiobristas: '',
     cantidad:'',
-    maniobras_id: '',
+    maniobras_id: props.maniobra_id,
     rango:'',
     nota:''
 });
@@ -166,6 +170,15 @@ const trabajador = useForm({
 watch(() => trabajador.turno_id,(nuevoIdTurno) => { //el whatcher observa el cambio de id
        console.log('El id del select del turno es ' + nuevoIdTurno);  //lo imprime
 
+        // Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM, idTurno:idT}, { preserveState: true, preserveScroll:true });
+        axios.get('maniobras',{turnoIdNuevo: nuevoIdTurno})
+        .then((resp)=>{
+           console.log(resp);
+           console.log('enviado');
+          })
+        .catch(function (error) {
+           console.log(error);
+          });
      });
 
 //FUNCION PARA AGREGAR TRABAJADORES
@@ -225,18 +238,6 @@ const closeModal = () => {
 };
 
 
-const reporte = useForm({
-    FechaInicioReporte: '',
-    FechaFinalReporte:''
-});
-
-//FUNCION PARA CONSULTAR REPORTES
-const  consultarReporte = () => {
-    reporte.get(route('listaasistencia.export'), {
-        onFinish: () => reporte.reset(),
-    });
-};
-
 
 //INSTALAR --ignore-platform-req=ext-gd  PARA "maatwebsite/excel": "^3.1.40 " Y phpoffice/phpspreadsheet": "^1.23.0",
 </script>
@@ -261,12 +262,15 @@ const  consultarReporte = () => {
                              <tr>
                                <th class="p-3">CEDIS <JetButton @click="NewCEDIS">+</JetButton> </th>
 
-                               <th class="p-3">
+                               <th class="p-3" v-if="load_data_maniobras">
                                     Maniobras
                                     <JetButton @click="NewManiobra" class="btn-sm" >+</JetButton>
                                </th>
 
-                               <th class="p-3" >Turnos</th>
+                               <th v-if="!load_data_maniobras"></th>
+
+                               <th class="p-3" v-if="load_data_turnos">Turnos</th>
+                               <th v-if="!load_data_turnos"></th>
 
 
                                <th class="p-3"  >Notificaciones <JetButton class="btn-sm" @click="NewTrabajador">+</JetButton> </th>
@@ -292,7 +296,7 @@ const  consultarReporte = () => {
                                   </td>
                                </tr>
                              </td>
-                             <td class="p-3">
+                             <td class="p-3" v-if="load_data_turnos">
                              <!--SE DESPLIAGAN LAS TURNOS-->
                                <div class="t-container">
                                  <ul class="t-tabs">
@@ -383,16 +387,7 @@ const  consultarReporte = () => {
                            </tr>
                            <tr>
                              <td colspan="4">
-                                <h4>Reportes</h4>
-                                   <form>
-                                     <label for="FechaInicioReporte">Fecha inicial:</label>
-                                     <input type="date" name="FechaInicioReporte" id="FechaInicioReporte" v-model="reporte.FechaInicioReporte" style="margin:1%;" required>
-                                     <label for="FechaInicioReporte">Fecha final:</label>
-                                     <input type="date" name="FechaFinalReporte" id="FechaFinalReporte" v-model="reporte.FechaFinalReporte" style="margin:1%;" required>
-                                     <button type="submit">Consultar Reportes</button>
-                                    </form>
-                             </td>
-                             <td colspan="4">
+                               <Reports></Reports>
                              </td>
                            </tr>
                          </tbody>
@@ -514,6 +509,8 @@ const  consultarReporte = () => {
 
                          <br><br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
+
+                        <pre>{{turnoSelected}}</pre>
                     </form><br><br>
                     <pre>
 
