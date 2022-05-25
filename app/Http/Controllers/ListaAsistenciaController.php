@@ -24,14 +24,16 @@ class ListaAsistenciaController extends Controller
 
     }
 
-    public function consultaReportes($FechaInicio, $FechaFinal)
+    public function byReport($FechaInicio, $FechaFinal)
     {
        //CONSULTA PARA FILTRO DE REPORTES
-       return DB::table('lista_asistencias')
-       ->select('FechaDeRegistro')
-       ->whereBetween('FechaDeRegistro',[$FechaInicio,$FechaFinal] )->get();
-     // $lista= lista_asistencia::all();
+       return DB::table(DB::raw('lista_asistencias'))
+       ->select(DB::raw('FechaDeRegistro'))
+       ->whereBetween('FechaDeRegistro',[$FechaInicio,$FechaFinal])->get();
+        // $lista= lista_asistencia::all();
+
     }
+
 
     public function export()
     {

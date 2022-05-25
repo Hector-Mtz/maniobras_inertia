@@ -21,4 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/maniobras/{id}/montos',[ManiobraController::class, 'byTurno'])->name('maniobras.montos');
 
-Route::get('/lista_asistencia/{FechaInicio}/{FechaFinal}/reportes',[ListaAsistenciaController::class, 'consultaReportes'])->name('lista_asistencias.reportes');
+Route::get('/lista_asistencia/{FechaInicio}/{FechaFinal}/reportes',[ListaAsistenciaController::class, 'byReport'])->name('lista_asistencias.reportes');
