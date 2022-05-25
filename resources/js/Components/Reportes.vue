@@ -16,7 +16,18 @@ const reporte = useForm({
 //FUNCION PARA CONSULTAR REPORTES
 const  consultarReporte = () => {
    console.log(reporte);
+   let fechaInicio = reporte.FechaInicioReporte; //rescatamos el valor de fecha de inicio y la guardamos en una variable
+   console.log('Fecha inicio '+ fechaInicio) // imprimimos la variable para verla en consola
+   let fechaFinal = reporte.FechaFinalReporte;
+   console.log('Fecha final '+fechaFinal);
 
+   axios.get('api/lista_asistencia/'+fechaInicio+'/'+fechaFinal+'/reportes')
+     .then((resp)=>{
+           console.log(resp);
+          })
+        .catch(function (error) {
+           console.log(error);
+          });
 
 
 }
