@@ -116,7 +116,7 @@ class ManiobraController extends Controller
             $montos= monto::where('turno_id','like','%'.$turnoSelect.'%')->get();
         }
 
-
+ ///comentario
         return Inertia::render('Maniobras',[
             'cedis'=> $cedis,
             'clientes' =>$clientes,
