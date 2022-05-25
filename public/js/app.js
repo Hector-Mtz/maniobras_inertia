@@ -23874,13 +23874,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, function (nuevoIdTurno) {
       //el whatcher observa el cambio de id
       console.log('El id del select del turno es ' + nuevoIdTurno); //lo imprime
-      // Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM, idTurno:idT}, { preserveState: true, preserveScroll:true });
+      // Hacemos peticion axios para traer los datos de montos referentes al turno
 
-      axios__WEBPACK_IMPORTED_MODULE_18___default().get('maniobras', {
+      axios__WEBPACK_IMPORTED_MODULE_18___default().get('api/maniobras/' + nuevoIdTurno + '/montos', {
         turnoIdNuevo: nuevoIdTurno
-      }).then(function (resp) {
-        console.log(resp);
-        console.log('enviado');
+      }) //enviamos el dato a la ruta de la api
+      .then(function (resp) {
+        var html_select_montos = '<option value="">Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
+
+        console.log(resp.data); //imprimimos la respuesta accediendo a la data
+
+        for (var index = 0; index < resp.data.length; index++) {
+          //iteramos los elementos
+          console.log(resp.data[index]); //imprimimos en consola los datos de los montos
+
+          console.log('id ' + resp.data[index].id); //imprimimos el id del monto
+
+          html_select_montos += '<option value="' + resp.data[index].id + '">' + resp.data[index].cantidad + '</option>'; //asignamos los valores al html
+
+          $('#select_monto_id').html(html_select_montos);
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -28570,31 +28583,37 @@ var _hoisted_142 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElemen
 /* HOISTED */
 );
 
-var _hoisted_143 = ["value"];
-
-var _hoisted_144 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_143 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "",
+  selected: "",
+  disabled: ""
+}, "Turno", -1
 /* HOISTED */
 );
+
+var _hoisted_144 = ["value"];
 
 var _hoisted_145 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_146 = {
-  key: 0
+var _hoisted_146 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_147 = {
+  id: "montos"
 };
 
-var _hoisted_147 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_148 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "monto_id"
 }, "Cantidades disponibles referentes al turno:", -1
 /* HOISTED */
 );
 
-var _hoisted_148 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_149 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
-
-var _hoisted_149 = ["value"];
 
 var _hoisted_150 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
@@ -29204,37 +29223,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return $setup.trabajador.turno_id = $event;
             }),
             required: ""
-          }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.turnos, function (turno) {
+          }, [_hoisted_143, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.turnos, function (turno) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
               value: turno.idTurno,
               key: turno.id
             }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(turno.NombreTurno), 9
             /* TEXT, PROPS */
-            , _hoisted_143);
+            , _hoisted_144);
           }), 128
           /* KEYED_FRAGMENT */
           ))], 512
           /* NEED_PATCH */
-          ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.turno_id]]), _hoisted_144, _hoisted_145, $props.montos != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_146, [_hoisted_147, _hoisted_148, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-            id: "monto_id",
+          ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.turno_id]]), _hoisted_145, _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [_hoisted_148, _hoisted_149, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+            id: "select_monto_id",
             "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
               return $setup.trabajador.monto_id = $event;
             }),
             required: ""
-          }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.montos, function (monto) {
-            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-              value: monto.id,
-              key: monto.id
-            }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(monto.cantidad), 9
-            /* TEXT, PROPS */
-            , _hoisted_149);
-          }), 128
-          /* KEYED_FRAGMENT */
-          ))], 512
+          }, null, 512
           /* NEED_PATCH */
-          ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.monto_id]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_150, _hoisted_151, _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("pre", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.turnoSelected), 1
-          /* TEXT */
-          )], 40
+          ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.trabajador.monto_id]])]), _hoisted_150, _hoisted_151, _hoisted_152], 40
           /* PROPS, HYDRATE_EVENTS */
           , _hoisted_135), _hoisted_153, _hoisted_154, _hoisted_155, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["JetSecondaryButton"], {
             onClick: $setup.closeModal

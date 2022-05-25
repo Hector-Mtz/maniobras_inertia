@@ -130,8 +130,6 @@ var turno = useForm({
     nota:''
 });
 
-
-
 //FUNCION PARA AGREGAR TURNOS
  const agregarTurno =   () => {
        turno.post(route('turnos.store'), {
@@ -169,12 +167,17 @@ const trabajador = useForm({
 
 watch(() => trabajador.turno_id,(nuevoIdTurno) => { //el whatcher observa el cambio de id
        console.log('El id del select del turno es ' + nuevoIdTurno);  //lo imprime
-
-        // Inertia.get("/maniobras", {idCedis:idC,idManiobra:idM, idTurno:idT}, { preserveState: true, preserveScroll:true });
-        axios.get('maniobras',{turnoIdNuevo: nuevoIdTurno})
+        // Hacemos peticion axios para traer los datos de montos referentes al turno
+      axios.get('api/maniobras/'+nuevoIdTurno+'/montos',{turnoIdNuevo: nuevoIdTurno}) //enviamos el dato a la ruta de la api
         .then((resp)=>{
-           console.log(resp);
-           console.log('enviado');
+          var html_select_montos = '<option value="">Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
+           console.log(resp.data); //imprimimos la respuesta accediendo a la data
+           for (let index = 0; index < resp.data.length; index++) { //iteramos los elementos
+               console.log(resp.data[index]); //imprimimos en consola los datos de los montos
+               console.log('id '+ resp.data[index].id); //imprimimos el id del monto
+               html_select_montos +='<option value="'+resp.data[index].id+'">'+resp.data[index].cantidad+'</option>'; //asignamos los valores al html
+               $('#select_monto_id').html(html_select_montos);
+           }
           })
         .catch(function (error) {
            console.log(error);
@@ -496,21 +499,19 @@ const closeModal = () => {
 
                         <label for="turno_id">Turnos disponibles:</label><br>
                          <select id="turno_id" v-model="trabajador.turno_id" required >
+                           <option value="" selected disabled>Turno</option>
                            <option  v-for="turno in turnos" :value="turno.idTurno" :key="turno.id">{{turno.NombreTurno}}</option>
                          </select>
                          <br><br>
 
-                        <div v-if="montos != null">
+                        <div id="montos">
                             <label for="monto_id">Cantidades disponibles referentes al turno:</label><br>
-                            <select id="monto_id" v-model="trabajador.monto_id" required >
-                              <option  v-for="monto in montos" :value="monto.id" :key="monto.id">{{monto.cantidad}}</option>
+                            <select id="select_monto_id" v-model="trabajador.monto_id" required >
                             </select>
                         </div>
 
                          <br><br>
                         <button class="btn btn-success"  type="submit" >Guardar</button>
-
-                        <pre>{{turnoSelected}}</pre>
                     </form><br><br>
                     <pre>
 

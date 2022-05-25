@@ -110,11 +110,6 @@ class ManiobraController extends Controller
         }
 
 
-        $turnoSelect = $request->turnoIdNuevo;
-
-        if(isset($turnoSelect)){
-            $montos= monto::where('turno_id','like','%'.$turnoSelect.'%')->get();
-        }
 
  ///comentario modificado gso
         return Inertia::render('Maniobras',[
@@ -128,12 +123,17 @@ class ManiobraController extends Controller
             'load_data_maniobras' => $load_data_maniobras,
             'load_data_turnos' => $load_data_turnos,
             'maniobra_id' => $maniobra_id,
-            'asistencias' => $asistencias,
-
-            'turnoSelected'=>$turnoSelect
+            'asistencias' => $asistencias
         ]);
     }
 
+
+    public function byTurno($id) //funcion para la ruta de la api para usarlo con axios
+    {
+       return DB::table(DB::raw('montos'))
+       ->select(DB::raw('id,cantidad'))
+       -> where('turno_id', $id)->get();
+    }
 
 
 
