@@ -54,7 +54,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',
     //Route::apiResource('/lista_asistencia', ListaAsistenciaController::class);
     Route::get('/lista_asistencia/export/', [ListaAsistenciaController::class, 'export'])->name('lista_asistencia.export');
 
-  //hola
 
 
     Route::get('/mapa', function () {
