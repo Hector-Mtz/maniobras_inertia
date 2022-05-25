@@ -170,7 +170,7 @@ watch(() => trabajador.turno_id,(nuevoIdTurno) => { //el whatcher observa el cam
         // Hacemos peticion axios para traer los datos de montos referentes al turno
       axios.get('api/maniobras/'+nuevoIdTurno+'/montos',{turnoIdNuevo: nuevoIdTurno}) //enviamos el dato a la ruta de la api
         .then((resp)=>{
-          var html_select_montos = '<option value="">Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
+          var html_select_montos = '<option value="" selected disabled>Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
            console.log(resp.data); //imprimimos la respuesta accediendo a la data
            for (let index = 0; index < resp.data.length; index++) { //iteramos los elementos
                console.log(resp.data[index]); //imprimimos en consola los datos de los montos

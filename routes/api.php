@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ManiobraController;
+use App\Http\Controllers\ListaAsistenciaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/maniobras/{id}/montos',[ManiobraController::class, 'byTurno'])->name('maniobras.montos');
+
+Route::get('/lista_asistencia/{FechaInicio}/{FechaFinal}/reportes',[ListaAsistenciaController::class, 'consultaReportes'])->name('lista_asistencias.reportes');

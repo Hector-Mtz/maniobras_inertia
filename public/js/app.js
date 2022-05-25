@@ -21731,28 +21731,6 @@ __webpack_require__.r(__webpack_exports__);
 
     var consultarReporte = function consultarReporte() {
       console.log(reporte);
-      /*
-         axios.post('http://127.0.0.1:8000/lista_asistencia',{
-      
-          report:reporte
-      
-         })
-           .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      */
-
-      reporte.post(route('lista_asistencia.index'), {
-        onSuccess: function onSuccess() {
-          return closeModal();
-        },
-        onFinish: function onFinish() {
-          return reporte.reset();
-        }
-      });
     };
 
     var __returned__ = {
@@ -23880,7 +23858,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         turnoIdNuevo: nuevoIdTurno
       }) //enviamos el dato a la ruta de la api
       .then(function (resp) {
-        var html_select_montos = '<option value="">Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
+        var html_select_montos = '<option value="" selected disabled>Seleccione un monto</option>'; //declaramos variable donde se almacenara el formato html para el select
 
         console.log(resp.data); //imprimimos la respuesta accediendo a la data
 
@@ -24934,9 +24912,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.reporte.FechaFinalReporte]]), _hoisted_5], 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("pre", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.lista), 1
-  /* TEXT */
-  )], 64
+  , _hoisted_2)], 64
   /* STABLE_FRAGMENT */
   );
 }

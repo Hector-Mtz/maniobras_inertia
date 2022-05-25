@@ -16,23 +16,9 @@ const reporte = useForm({
 //FUNCION PARA CONSULTAR REPORTES
 const  consultarReporte = () => {
    console.log(reporte);
-/*
-   axios.post('http://127.0.0.1:8000/lista_asistencia',{
 
-    report:reporte
 
-   })
-     .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-*/
-    reporte.post(route('lista_asistencia.index'), {
-        onSuccess: () => closeModal(),
-        onFinish: () => reporte.reset(),
-    });
+
 }
 
 </script>
@@ -46,5 +32,4 @@ const  consultarReporte = () => {
         <button type="submit" class="btn btn-outline-success">Consultar listas de asistencias</button>
     </form>
 
-    <pre>{{lista}}</pre>
 </template>
