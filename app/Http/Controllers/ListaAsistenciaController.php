@@ -28,7 +28,18 @@ class ListaAsistenciaController extends Controller
     {
        //CONSULTA PARA FILTRO DE REPORTES
        return DB::table(DB::raw('lista_asistencias'))
-       ->select(DB::raw('FechaDeRegistro'))
+       ->select(DB::raw('
+         cedis.nombreCEDIS,
+         maniobras.nombreManiobra,
+         lista_asistencias.FechaDeRegistro,
+         turnos.FechaInicio,
+         turnos.FechaFinal
+
+         '))
+       ->join('asistencias','lista_asistencias.asistencia_id','=','asistencias.id')
+       ->join('turnos','asistencias.turno_id','=','turnos.id')
+       ->join('maniobras','turnos.maniobras_id','=','maniobras.id')
+       ->join('cedis','maniobras.cedis_id','=','cedis.id')
        ->whereBetween('FechaDeRegistro',[$FechaInicio,$FechaFinal])->get();
         // $lista= lista_asistencia::all();
 

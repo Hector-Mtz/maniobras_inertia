@@ -24,12 +24,30 @@ const  consultarReporte = () => {
    axios.get('api/lista_asistencia/'+fechaInicio+'/'+fechaFinal+'/reportes')
      .then((resp)=>{
            console.log(resp);
+           console.log(resp.data);
+           var html_select_montos = '<tr>'
+                                    +'<th>CEDIS</th>'
+                                    +'<th>Maniobras</th>'
+                                    +'<th>Fecha de registro</th>'
+                                    +'<th>Fecha inicial</th>'
+                                    +'<th>Fecha final</th>'
+                                    +'<th></th> </tr>';
+           for (let index = 0; index < resp.data.length; index++) { //iteramos los elementos
+              //asignamos los valores al html
+               html_select_montos +=
+                                        '<tr><td>'+ resp.data[index].nombreCEDIS + '</td>'
+                                        +'<td>'+ resp.data[index].nombreManiobra +'</td>'
+                                        +'<td>'+ resp.data[index].FechaDeRegistro +'</td>'
+                                        +'<td>'+ resp.data[index].FechaInicio+'</td>'
+                                        +'<td>'+ resp.data[index].FechaFinal+'</td>'
+                                        +'<td><a>Descargar Reporte</a></td></tr>';
+
+               $('#datos').html(html_select_montos);
+           }
           })
         .catch(function (error) {
            console.log(error);
           });
-
-
 }
 
 </script>
@@ -42,5 +60,7 @@ const  consultarReporte = () => {
         <input type="date" name="FechaFinalReporte" id="FechaFinalReporte" v-model="reporte.FechaFinalReporte" style="margin:1%;" required>
         <button type="submit" class="btn btn-outline-success">Consultar listas de asistencias</button>
     </form>
+    <table id="datos" class="table">
 
+    </table>
 </template>

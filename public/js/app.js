@@ -21739,6 +21739,15 @@ __webpack_require__.r(__webpack_exports__);
       console.log('Fecha final ' + fechaFinal);
       axios__WEBPACK_IMPORTED_MODULE_3___default().get('api/lista_asistencia/' + fechaInicio + '/' + fechaFinal + '/reportes').then(function (resp) {
         console.log(resp);
+        console.log(resp.data);
+        var html_select_montos = '<tr>' + '<th>CEDIS</th>' + '<th>Maniobras</th>' + '<th>Fecha de registro</th>' + '<th>Fecha inicial</th>' + '<th>Fecha final</th>' + '<th></th> </tr>';
+
+        for (var index = 0; index < resp.data.length; index++) {
+          //iteramos los elementos
+          //asignamos los valores al html
+          html_select_montos += '<tr><td>' + resp.data[index].nombreCEDIS + '</td>' + '<td>' + resp.data[index].nombreManiobra + '</td>' + '<td>' + resp.data[index].FechaDeRegistro + '</td>' + '<td>' + resp.data[index].FechaInicio + '</td>' + '<td>' + resp.data[index].FechaFinal + '</td>' + '<td><a>Descargar Reporte</a></td></tr>';
+          $('#datos').html(html_select_montos);
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -24892,6 +24901,13 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", {
+  id: "datos",
+  "class": "table"
+}, null, -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.consultarReporte, ["prevent"])
@@ -24923,7 +24939,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.reporte.FechaFinalReporte]]), _hoisted_5], 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_2)], 64
+  , _hoisted_2), _hoisted_6], 64
   /* STABLE_FRAGMENT */
   );
 }
