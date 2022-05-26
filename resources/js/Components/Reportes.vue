@@ -1,12 +1,10 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import axios from 'axios';
 
-var props = defineProps({
-    lista:Object
-});
+let listaAsistencias = ref([]);
 
 const reporte = useForm({
     FechaInicioReporte:'',
@@ -23,33 +21,18 @@ const  consultarReporte = () => {
 
    axios.get('api/lista_asistencia/'+fechaInicio+'/'+fechaFinal+'/reportes')
      .then((resp)=>{
-           console.log(resp);
-           console.log(resp.data);
-           var html_select_montos = '<tr>'
-                                    +'<th>CEDIS</th>'
-                                    +'<th>Maniobras</th>'
-                                    +'<th>Fecha de registro</th>'
-                                    +'<th>Fecha inicial</th>'
-                                    +'<th>Fecha final</th>'
-                                    +'<th></th> </tr>';
-           for (let index = 0; index < resp.data.length; index++) { //iteramos los elementos
-              //asignamos los valores al html
-               html_select_montos +=
-                                        '<tr><td>'+ resp.data[index].nombreCEDIS + '</td>'
-                                        +'<td>'+ resp.data[index].nombreManiobra +'</td>'
-                                        +'<td>'+ resp.data[index].FechaDeRegistro +'</td>'
-                                        +'<td>'+ resp.data[index].FechaInicio+'</td>'
-                                        +'<td>'+ resp.data[index].FechaFinal+'</td>'
-                                        +'<td><a>Descargar Reporte</a></td></tr>';
-
-               $('#datos').html(html_select_montos);
-           }
+            //console.log(resp.data);
+            listaAsistencias.value = resp.data;
+            console.log(listaAsistencias)
           })
         .catch(function (error) {
            console.log(error);
           });
 }
 
+const  generarReporte = () => {
+     alert('hola');
+}
 </script>
 <template>
       <h4>Reportes</h4>
@@ -60,7 +43,32 @@ const  consultarReporte = () => {
         <input type="date" name="FechaFinalReporte" id="FechaFinalReporte" v-model="reporte.FechaFinalReporte" style="margin:1%;" required>
         <button type="submit" class="btn btn-outline-success">Consultar listas de asistencias</button>
     </form>
-    <table id="datos" class="table">
 
+
+    <table id="datos" class="table">
+         <thead>
+            <tr>
+               <th>CEDIS</th>
+               <th>Maniobras</th>
+               <th>Fecha de registro</th>
+               <th>Fecha inicial</th>
+               <th>Fecha final</th>
+               <th>Número de inscritos</th>
+               <th>Número de asitencias</th>
+               <th>Reportes</th>
+            </tr>
+         </thead>
+         <tbody>
+         <tr v-for="item in listaAsistencias" :key="item.id">
+             <td >{{item.nombreCEDIS}}</td>
+             <td>{{item.nombreManiobra}}</td>
+             <td>{{item.FechaDeRegistro}}</td>
+             <td>{{item.FechaInicio}}</td>
+             <td>{{item.FechaFinal}}</td>
+             <td></td>
+             <td></td>
+             <td><button @click="generarReporte()" class="btn btn-outline-primary">Descargar reporte</button></td>
+         </tr>
+         </tbody>
     </table>
 </template>

@@ -52,4 +52,11 @@
    <script src="{{asset('js/websocket.js')}}" defer></script>
    <!--SCRIPT MAPA-->
    {{-- <script src="{{asset('js/coordenadas.js')}}"></script>--> --}}
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script>
+      function descargarReporte()
+       {
+         console.log('Funcionando');
+       }
+   </script>
 </html>

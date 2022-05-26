@@ -250,17 +250,17 @@ const closeModal = () => {
     <!--HEADER-->
     <AppLayout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 Maniobras
             </h2>
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                    <div class="container mt-2" >
                       <div class="row table-responsive">
-                        <table class=" table table-striped display">
+                        <table class="table table-striped display">
                            <thead>
                              <tr>
                                <th class="p-3">CEDIS <JetButton @click="NewCEDIS">+</JetButton> </th>
@@ -276,8 +276,8 @@ const closeModal = () => {
                                <th v-if="!load_data_turnos"></th>
 
 
-                               <th class="p-3"  >Notificaciones <JetButton class="btn-sm" @click="NewTrabajador">+</JetButton> </th>
-
+                               <th class="p-3" v-if="load_data_turnos" ><p class="mr-2">Agregar trabajador a turno</p><JetButton class="btn-sm"  @click="NewTrabajador">+</JetButton> </th>
+                               <th v-if="!load_data_turnos"></th>
                              </tr>
                            </thead>
                            <tbody>
@@ -337,7 +337,7 @@ const closeModal = () => {
                                          <input type="number" name="rango" placeholder="0 KM" v-model="turno.rango" required><br><br>
                                          <label for="nota">Notas</label><br>
                                          <textarea name="nota" id="nota" cols="100" rows="5" v-model="turno.nota"></textarea>
-                                         <button style="float:right;" class="btn btn-primary mb-3" type="submit">Enviar</button>
+                                         <button style="float:right;" class="mb-3 btn btn-primary" type="submit">Enviar</button>
                                       </form>
                                    </li>
                                     <!--FORMULARIO DE Edicion-->
@@ -370,7 +370,7 @@ const closeModal = () => {
                                          <input type="number" name="rango" placeholder="0 KM" v-model="turno.rango" required><br><br>
                                          <label for="nota">Notas</label><br>
                                          <textarea name="nota" id="nota" cols="100" rows="5" v-model="turno.nota"></textarea>
-                                         <button style="float:right;" class="btn btn-primary mb-3" type="submit">Enviar</button>
+                                         <button style="float:right;" class="mb-3 btn btn-primary" type="submit">Enviar</button>
                                       </form>
                                    </li>
                                  </ul>
@@ -527,7 +527,7 @@ const closeModal = () => {
             <ModalManiobras  :show="verAsis" @close="closeModal">
                 <template #title>
                      <h5 style="margin:2%;">Usuarios que se han registrado para el turno.</h5>
-                   <table class=" table table-striped display">
+                   <table class="table table-striped display">
                       <tr>
                          <th>Nombre de empleado</th>
                          <th>Cantidad a pagar</th>

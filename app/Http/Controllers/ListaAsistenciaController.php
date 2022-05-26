@@ -29,6 +29,7 @@ class ListaAsistenciaController extends Controller
        //CONSULTA PARA FILTRO DE REPORTES
        return DB::table(DB::raw('lista_asistencias'))
        ->select(DB::raw('
+         lista_asistencias.id,
          cedis.nombreCEDIS,
          maniobras.nombreManiobra,
          lista_asistencias.FechaDeRegistro,
